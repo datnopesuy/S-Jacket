@@ -21,7 +21,7 @@ public class SizeService {
 
     public ArrayList<Size> getAllSize() {
         ArrayList<Size> list = new ArrayList<>();
-        String sql = "select * from SIZE";
+        String sql = "select IDSIZE,MASIZE, TENSIZE, TRANGTHAI from SIZE";
         Connection con = DBConnect.getConnection();
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
