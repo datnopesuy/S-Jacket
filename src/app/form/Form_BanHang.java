@@ -35,7 +35,6 @@ public class Form_BanHang extends javax.swing.JPanel {
     private final BanHangService bhs = new BanHangService();
     private final SanPhamChiTietService spcts = new SanPhamChiTietService();
     private final GioHangService ghs = new GioHangService();
-
     int indexHDC = - 1;
     int indexDSSP = - 1;
 
@@ -78,7 +77,6 @@ public class Form_BanHang extends javax.swing.JPanel {
         LoadDataGH(ghs.getGioHangByMaHD(maHD));
     }
 
-
     private void LoadDataHDC(ArrayList<HoaDon> list) {
         tblModelHD.setRowCount(0);
         for (HoaDon hd : list) {
@@ -106,6 +104,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         tblModelSPCT.setRowCount(0);
         for (SanPhamChiTiet spct : listSPCT) {
             tblModelSPCT.addRow(new Object[]{
+                spct.getIdSPCT(),
                 spct.getSanPham().getMaSP(),
                 spct.getSanPham().getTenSP(),
                 spct.getMauSac().getTenMauSac(),
@@ -119,32 +118,31 @@ public class Form_BanHang extends javax.swing.JPanel {
             });
         }
     }
-    
-        
-    private void getDSSPTable(int soLuongMua){
+
+    private void getDSSPTable(int soLuongMua) {
         SanPhamChiTiet spct = new SanPhamChiTiet();
         int indexDSSP = tblDSSP.getSelectedRow();
         SanPham sp = new SanPham();
         sp.setMaSP(tblDSSP.getValueAt(indexDSSP, 0).toString());
-        
+
         MauSac ms = new MauSac();
         ms.setTenMauSac(tblDSSP.getValueAt(indexDSSP, 1).toString());
-        
+
         ChatLieu cl = new ChatLieu();
         cl.setTenChatLieu(tblDSSP.getValueAt(indexDSSP, 2).toString());
-        
+
         KieuDang kd = new KieuDang();
         kd.setTenKieuDang(tblDSSP.getValueAt(indexDSSP, 3).toString());
-        
+
         Size s = new Size();
         s.setMaSize(tblDSSP.getValueAt(indexDSSP, 4).toString());
-        
+
         LopLot ll = new LopLot();
         ll.setTenLopLot(tblDSSP.getValueAt(indexDSSP, 5).toString());
-        
+
         Mu m = new Mu();
         m.setTenMu(tblDSSP.getValueAt(indexDSSP, 6).toString());
-        
+
         spct.setSanPham(sp);
         spct.setChatLieu(cl);
         spct.setMauSac(ms);
@@ -153,14 +151,26 @@ public class Form_BanHang extends javax.swing.JPanel {
         spct.setSize(s);
         spct.setMu(m);
         spct.setSoLuong(soLuongMua);
-        spct.setGia(Double.parseDouble(tblDSSP.getValueAt(indexDSSP, 9).toString()));
+        spct.setGia(Double.valueOf(tblDSSP.getValueAt(indexDSSP, 9).toString()));
+    }
+
+    private HoaDonChiTiet1 getSPCTFROMDSSP() {
+        indexDSSP = tblDSSP.getSelectedRow();
+        indexHDC = tblHDC.getSelectedRow();
+        SanPhamChiTiet spct = new SanPhamChiTiet();
+        spct.setIdSPCT(Integer.valueOf(tblDSSP.getValueAt(indexDSSP, 0).toString()));
+        HoaDonChiTiet1 hdct1 = new HoaDonChiTiet1();
+        hdct1.setSanPhamChiTiet(spct);
+        hdct1.getSoLuong();
+        hdct1.setGia(Double.parseDouble(tblDSSP.getValueAt(indexDSSP, 10).toString()));
+        return hdct1;
     }
 
     private void loadFormSPCT() {
         tblDSSP.removeAll();
         tblDSSP.setModel(tblModelSPCT);
         String headerSPCT[] = {
-            "Mã sản phẩm", "Tên sản phẩm", "Màu sắc", "Chất liệu", "Lớp lót", "Mũ", "Size", "Kiểu dáng", "Số lượng", "Giá"
+            "IDSPCT", "Mã sản phẩm", "Tên sản phẩm", "Màu sắc", "Chất liệu", "Lớp lót", "Mũ", "Size", "Kiểu dáng", "Số lượng", "Giá"
         };
         tblModelSPCT.setColumnIdentifiers(headerSPCT);
         tblModelSPCT = (DefaultTableModel) tblDSSP.getModel();
@@ -738,13 +748,10 @@ public class Form_BanHang extends javax.swing.JPanel {
         // TODO add your handling code here:
         try {
             int indexHDC = tblHDC.getSelectedRow();
-            double tongtien = 0;
             if (indexHDC >= 0) {
                 LoadFormGH();
                 String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
                 LoadDataGH(ghs.getGioHangByMaHD(maHD));
-                System.out.println(maHD);
-                System.out.println(ghs.getGioHangByMaHD(maHD));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -757,12 +764,19 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     private void tblDSSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDSSPMouseClicked
         // TODO add your handling code here:
-        int indexHDC = tblHDC.getSelectedRow();
-        int indexDSSP = tblDSSP.getSelectedRow();
+        indexHDC = tblHDC.getSelectedRow();
+        indexDSSP = tblDSSP.getSelectedRow();
+        String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
+        int idHDC = bhs.getIDHD(maHD);
+        System.out.println(maHD);
+        System.out.println(idHDC);
+        double thanhTien = 0;
         if (indexHDC >= 0) {
             if (indexDSSP >= 0) {
-                int soLuongMua = Integer.parseInt(JOptionPane.showInputDialog(this, "Mua nhiu cu:", "Số lượng mua", JOptionPane.QUESTION_MESSAGE))  ;
-
+                int soLuongMua = Integer.parseInt(JOptionPane.showInputDialog(this, "Mua nhiu cu:", "Số lượng mua", JOptionPane.QUESTION_MESSAGE));
+                HoaDonChiTiet1 hdct = getSPCTFROMDSSP();
+                ghs.addGH(hdct, soLuongMua, idHDC);
+                LoadDataGH(ghs.getGioHangByMaHD(maHD));
             }
         }
     }//GEN-LAST:event_tblDSSPMouseClicked

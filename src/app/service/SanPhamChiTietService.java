@@ -20,70 +20,6 @@ import java.sql.*;
  * @author Dat
  */
 public class SanPhamChiTietService {
-
-//    public ArrayList<SanPhamChiTiet> getAllSPCT() {
-//        ArrayList<SanPhamChiTiet> list = new ArrayList<>();
-//        String sql = "SELECT spct.IDSANPHAM, sp.TENSP, ms.TENMAU, cl.TENCHATLIEU, ll.TENLOPLOT, m.KIEUMU, s.TENSIZE, kd.TENKIEUDANG, spct.SOLUONG, spct.MOTA, spct.TRANGTHAI \n"
-//                + "FROM SANPHAMCHITIET spct \n"
-//                + "LEFT JOIN SANPHAM sp ON sp.IDSANPHAM = spct.IDSANPHAM\n"
-//                + "LEFT JOIN MAUSAC ms ON spct.IDMAUSAC = ms.IDMAUSAC\n"
-//                + "LEFT JOIN CHATLIEU cl ON spct.IDCHATLIEU = cl.IDCHATLIEU\n"
-//                + "LEFT JOIN MU m ON spct.IDMU = m.IDMU\n"
-//                + "LEFT JOIN SIZE s ON spct.IDSIZE = s.IDSIZE\n"
-//                + "LEFT JOIN LOPLOT ll ON spct.IDLOPLOT = ll.IDLOPLOT\n"
-//                + "LEFT JOIN KIEUDANG kd ON spct.IDKIEUDANG = kd.IDKIEUDANG;";
-//        Connection con = DBConnect.getConnection();
-//        try {
-//            PreparedStatement pstm = con.prepareStatement(sql);
-//            ResultSet rs = pstm.executeQuery();
-//            while (rs.next()) {
-//                SanPham sp = new SanPham();
-//                sp.setId(rs.getInt("IDSANPHAM"));
-//                sp.setTenSP(rs.getString("TENSP"));
-//                
-//                MauSac ms = new MauSac();
-//                ms.setId(rs.getInt("IDMAUSAC"));
-//                ms.setTenMauSac(rs.getString("ms.TENMAU"));
-//                
-//                ChatLieu cl = new ChatLieu();
-//                cl.setId(rs.getInt("IDCHATLIEU"));
-//                cl.setTenChatLieu(rs.getString("TENCHATLIEU"));
-//                
-//                LopLot ll = new LopLot();
-//                ll.setId(rs.getInt("IDLOPLOT"));
-//                ll.setTenLopLot(rs.getString("TENLOPLOT"));
-//                
-//                Mu m = new Mu();
-//                m.setId(rs.getInt("IDMU"));
-//                m.setTenMu(rs.getString("KIEUMU"));
-//                
-//                Size s = new Size();
-//                s.setId(rs.getInt("IDSIZE"));
-//                s.setTenSize(rs.getString("TENSIZE"));
-//                
-//                KieuDang kd = new KieuDang();
-//                kd.setId(rs.getInt("IDKIEUDANG"));
-//                kd.setTenKieuDang(rs.getString("TENKIEUDANG"));
-//                
-//                SanPhamChiTiet spct = new SanPhamChiTiet();
-//                spct.setIdSPCT(rs.getInt("IDSPCT"));
-//                spct.setSanPham(sp);
-//                spct.setMauSac(ms);
-//                spct.setChatLieu(cl);
-//                spct.setLopLot(ll);
-//                spct.setMu(m);
-//                spct.setSize(s);
-//                spct.setKieuDang(kd);
-//                spct.setSoLuong(rs.getInt("SOLUONG"));
-//                spct.setMoTa(rs.getString("MOTA"));
-//                spct.setTrangThai(rs.getBoolean("TRANGTHAI"));
-//                list.add(spct);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace(System.out);
-//        }
-//        return list;
-//    }
     public ArrayList<SanPhamChiTiet> getAllSPCT() {
         ArrayList<SanPhamChiTiet> list = new ArrayList<>();
         String sql = "SELECT spct.IDSANPHAM, sp.MASP, sp.TENSP, spct.IDMAUSAC, ms.MAMAU, ms.TENMAU\n"
@@ -143,7 +79,7 @@ public class SanPhamChiTietService {
                 kd.setTenKieuDang(rs.getString("TENKIEUDANG"));
 
                 SanPhamChiTiet spct = new SanPhamChiTiet();
-                spct.setIdSPCT(rs.getInt("IDSANPHAM")); // Ensure the column exists and the correct name is used
+                spct.setIdSPCT(rs.getInt("IDSPCT")); // Ensure the column exists and the correct name is used
                 spct.setSanPham(sp);
                 spct.setMauSac(ms);
                 spct.setChatLieu(cl);
@@ -206,7 +142,7 @@ public class SanPhamChiTietService {
 //    }
     public ArrayList<SanPhamChiTiet> getAllSPCTHD() {
         ArrayList<SanPhamChiTiet> list = new ArrayList<>();
-        String sql = "SELECT spct.IDSANPHAM, sp.MASP, sp.TENSP, spct.IDMAUSAC, ms.MAMAU, ms.TENMAU\n"
+        String sql = "SELECT spct.IDSPCT, spct.IDSANPHAM, sp.MASP, sp.TENSP, spct.IDMAUSAC, ms.MAMAU, ms.TENMAU\n"
                 + ", spct.IDCHATLIEU, cl.MACHATLIEU, cl.TENCHATLIEU\n"
                 + ", spct.IDLOPLOT, ll.TENLOPLOT, ll.MALOPLOT\n"
                 + ", spct.IDMU, m.MAMU, m.KIEUMU\n"
@@ -264,7 +200,7 @@ public class SanPhamChiTietService {
                 kd.setTenKieuDang(rs.getString("TENKIEUDANG"));
 
                 SanPhamChiTiet spct = new SanPhamChiTiet();
-                spct.setIdSPCT(rs.getInt("IDSANPHAM")); // Ensure the column exists and the correct name is used
+                spct.setIdSPCT(rs.getInt("IDSPCT")); // Ensure the column exists and the correct name is used
                 spct.setSanPham(sp);
                 spct.setMauSac(ms);
                 spct.setChatLieu(cl);
@@ -368,7 +304,7 @@ public class SanPhamChiTietService {
                 kd.setTenKieuDang(rs.getString("TENKIEUDANG"));
 
                 SanPhamChiTiet spct = new SanPhamChiTiet();
-                spct.setIdSPCT(rs.getInt("IDSANPHAM")); // Ensure the column exists and the correct name is used
+                spct.setIdSPCT(rs.getInt("IDSPCT")); // Ensure the column exists and the correct name is used
                 spct.setSanPham(sp);
                 spct.setMauSac(ms);
                 spct.setChatLieu(cl);

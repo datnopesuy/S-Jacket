@@ -8,6 +8,7 @@ import app.model.ChatLieu;
 import app.model.GioHang;
 import app.model.HoaDon;
 import app.model.HoaDonChiTiet;
+import app.model.HoaDonChiTiet1;
 import app.model.KieuDang;
 import app.model.LopLot;
 import app.model.MauSac;
@@ -119,6 +120,25 @@ public class GioHangService {
         }
 
         return list;
+    }
+
+    public Integer addGH(HoaDonChiTiet1 hdct, int soLuongMua, int idHoaDon) {
+        Integer row = null;
+        String sql = "insert into HOADONCHITIET(IDHOADON, IDSPCT, SOLUONG, GIA, THANHTIEN)\n"
+                + "values(?, ?, ?, ?, ?)";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setInt(1, idHoaDon);
+            pstm.setInt(2, hdct.getSanPhamChiTiet().getIdSPCT());
+            pstm.setInt(3, hdct.getSoLuong());
+            pstm.setDouble(4, hdct.getGia());
+            pstm.setDouble(5, hdct.getThanhTien());
+            row = pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
     }
 
 }

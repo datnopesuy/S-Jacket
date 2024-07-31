@@ -89,6 +89,27 @@ public class BanHangService {
         return row;
     }
 
+    public Integer getIDHD(String maHD) {
+        String sql = "select IDHOADON from HOADON"
+                + " where MAHOADON = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maHD);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("IDHOADON");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    
+
+
+
 //    public ArrayList<HoaDonChiTiet> getHDCTByMaHD(String maHD) {
 //        ArrayList<HoaDonChiTiet> list = new ArrayList<>();
 //        String sql = "select hdct.IDHDCT, hd.IDHOADON, hdct.IDSPCT, hdct.SOLUONG, hdct.SOLUONG * hdct.GIA as THANHTIEN\n"
