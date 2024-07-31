@@ -39,7 +39,29 @@ public class SizeService {
         }
         return list;
     }
-    
+
+    public Size getSizebyMa(String maSize) {
+        String sql = "select * from SIZE\n"
+                + "where MASIZE = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maSize);
+            ResultSet rs = pstm.executeQuery();
+            while(rs.next()){
+                Size s = new Size();
+                s.setId(rs.getInt("IDSIZE"));
+                s.setMaSize(rs.getString("MASIZE"));
+                s.setTenSize(rs.getString("TENSIZE"));
+                s.setTrangThai(rs.getBoolean("TRANGTHAI"));
+                return s;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Integer addSize(Size s) {
         Integer row = null;
         String sql = "insert into SIZE(MASIZE, TENSIZE, TRANGTHAI)"
@@ -56,8 +78,8 @@ public class SizeService {
         }
         return row;
     }
-    
-        public Integer updateSize(Size s) {
+
+    public Integer updateSize(Size s) {
         Integer row = null;
         String sql = "update SIZE\n"
                 + "set TRANGTHAI = ?, TENSIZE = ?\n"
@@ -74,6 +96,5 @@ public class SizeService {
         }
         return row;
     }
-    
 
 }

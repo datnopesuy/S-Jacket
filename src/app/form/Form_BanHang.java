@@ -4,12 +4,23 @@
  */
 package app.form;
 
+import app.model.ChatLieu;
+import app.model.GioHang;
 import app.model.HoaDon;
+import app.model.HoaDonChiTiet;
+import app.model.HoaDonChiTiet1;
+import app.model.KieuDang;
+import app.model.LopLot;
+import app.model.MauSac;
+import app.model.Mu;
 import app.model.SanPham;
 import app.model.SanPhamChiTiet;
+import app.model.Size;
 import app.service.BanHangService;
+import app.service.GioHangService;
 import app.service.SanPhamChiTietService;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,8 +31,13 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     DefaultTableModel tblModelHD = new DefaultTableModel();
     DefaultTableModel tblModelSPCT = new DefaultTableModel();
+    DefaultTableModel tblModelGH = new DefaultTableModel();
     private final BanHangService bhs = new BanHangService();
     private final SanPhamChiTietService spcts = new SanPhamChiTietService();
+    private final GioHangService ghs = new GioHangService();
+
+    int indexHDC = - 1;
+    int indexDSSP = - 1;
 
     /**
      * Creates new form Form_BanHang
@@ -31,6 +47,37 @@ public class Form_BanHang extends javax.swing.JPanel {
         loadFormHDC();
         loadFormSPCT();
     }
+
+    private void LoadDataGH(ArrayList<GioHang> list) {
+        tblModelGH.setRowCount(0);
+        for (GioHang gh : list) {
+            tblModelGH.addRow(new Object[]{
+                gh.getSanPham().getTenSP(),
+                gh.getMauSac().getTenMauSac(),
+                gh.getChatLieu().getMaChatLieu(),
+                gh.getLopLot().getTenLopLot(),
+                gh.getMu().getTenMu(),
+                gh.getSize().getMaSize(),
+                gh.getKieuDang().getTenKieuDang(),
+                gh.getSoLuong(),
+                gh.getThanhTien()
+            });
+        }
+    }
+
+    private void LoadFormGH() {
+        tblGH.removeAll();
+        tblGH.setModel(tblModelGH);
+        String headerSP[] = {
+            "Tên sản phẩm", "Màu sắc", "Chất liệu", "Lớp lót", "Mũ", "Size", "Kiểu dáng", "Số lượng", "Thành tiền"
+        };
+        tblModelGH.setColumnIdentifiers(headerSP);
+        tblModelGH = (DefaultTableModel) tblGH.getModel();
+        int index = tblHDC.getSelectedRow();
+        String maHD = tblHDC.getValueAt(index, 0).toString();
+        LoadDataGH(ghs.getGioHangByMaHD(maHD));
+    }
+
 
     private void LoadDataHDC(ArrayList<HoaDon> list) {
         tblModelHD.setRowCount(0);
@@ -54,7 +101,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         tblModelHD = (DefaultTableModel) tblHDC.getModel();
         LoadDataHDC(bhs.getAllHDC());
     }
-    
+
     private void loadDataSPCT(ArrayList<SanPhamChiTiet> listSPCT) {
         tblModelSPCT.setRowCount(0);
         for (SanPhamChiTiet spct : listSPCT) {
@@ -71,6 +118,42 @@ public class Form_BanHang extends javax.swing.JPanel {
                 spct.getGia()
             });
         }
+    }
+    
+        
+    private void getDSSPTable(int soLuongMua){
+        SanPhamChiTiet spct = new SanPhamChiTiet();
+        int indexDSSP = tblDSSP.getSelectedRow();
+        SanPham sp = new SanPham();
+        sp.setMaSP(tblDSSP.getValueAt(indexDSSP, 0).toString());
+        
+        MauSac ms = new MauSac();
+        ms.setTenMauSac(tblDSSP.getValueAt(indexDSSP, 1).toString());
+        
+        ChatLieu cl = new ChatLieu();
+        cl.setTenChatLieu(tblDSSP.getValueAt(indexDSSP, 2).toString());
+        
+        KieuDang kd = new KieuDang();
+        kd.setTenKieuDang(tblDSSP.getValueAt(indexDSSP, 3).toString());
+        
+        Size s = new Size();
+        s.setMaSize(tblDSSP.getValueAt(indexDSSP, 4).toString());
+        
+        LopLot ll = new LopLot();
+        ll.setTenLopLot(tblDSSP.getValueAt(indexDSSP, 5).toString());
+        
+        Mu m = new Mu();
+        m.setTenMu(tblDSSP.getValueAt(indexDSSP, 6).toString());
+        
+        spct.setSanPham(sp);
+        spct.setChatLieu(cl);
+        spct.setMauSac(ms);
+        spct.setKieuDang(kd);
+        spct.setLopLot(ll);
+        spct.setSize(s);
+        spct.setMu(m);
+        spct.setSoLuong(soLuongMua);
+        spct.setGia(Double.parseDouble(tblDSSP.getValueAt(indexDSSP, 9).toString()));
     }
 
     private void loadFormSPCT() {
@@ -104,7 +187,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblGH = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -153,6 +236,14 @@ public class Form_BanHang extends javax.swing.JPanel {
                 "Mã HD", "Tổng tiền", "Ngày tạo", "Trạng thái"
             }
         ));
+        tblHDC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHDCMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tblHDCMouseEntered(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblHDC);
 
         btnAddHDC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/app/icon/icon/Add.png"))); // NOI18N
@@ -227,7 +318,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Giỏ hàng"));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblGH.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -238,7 +329,7 @@ public class Form_BanHang extends javax.swing.JPanel {
                 "Tên SP", "Màu sắc", "Chất liệu", "Kiểu dáng", "Size", "Số lượng ", "Thành tiền"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblGH);
 
         jButton5.setText("Xóa sản phẩm");
 
@@ -248,16 +339,16 @@ public class Form_BanHang extends javax.swing.JPanel {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane2)
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(395, Short.MAX_VALUE)
                 .addComponent(jButton9)
                 .addGap(50, 50, 50)
                 .addComponent(jButton5)
                 .addGap(54, 54, 54))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,6 +375,11 @@ public class Form_BanHang extends javax.swing.JPanel {
                 "Tên SP", "Màu sắc", "Chất liệu", "Kiểu dáng", "Size", "Số lượng ", "Thành tiền"
             }
         ));
+        tblDSSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDSSPMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblDSSP);
 
         jButton6.setText("<<<");
@@ -296,25 +392,27 @@ public class Form_BanHang extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton6)
-                .addGap(51, 51, 51)
-                .addComponent(jButton7)
-                .addGap(281, 281, 281))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 223, Short.MAX_VALUE)
+                        .addComponent(jButton6)
+                        .addGap(62, 62, 62)
+                        .addComponent(jButton7)
+                        .addGap(269, 269, 269))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7)
                     .addComponent(jButton6))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -541,7 +639,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1035, Short.MAX_VALUE)
+            .addGap(0, 1038, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -636,6 +734,39 @@ public class Form_BanHang extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void tblHDCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHDCMouseClicked
+        // TODO add your handling code here:
+        try {
+            int indexHDC = tblHDC.getSelectedRow();
+            double tongtien = 0;
+            if (indexHDC >= 0) {
+                LoadFormGH();
+                String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
+                LoadDataGH(ghs.getGioHangByMaHD(maHD));
+                System.out.println(maHD);
+                System.out.println(ghs.getGioHangByMaHD(maHD));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_tblHDCMouseClicked
+
+    private void tblHDCMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHDCMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblHDCMouseEntered
+
+    private void tblDSSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDSSPMouseClicked
+        // TODO add your handling code here:
+        int indexHDC = tblHDC.getSelectedRow();
+        int indexDSSP = tblDSSP.getSelectedRow();
+        if (indexHDC >= 0) {
+            if (indexDSSP >= 0) {
+                int soLuongMua = Integer.parseInt(JOptionPane.showInputDialog(this, "Mua nhiu cu:", "Số lượng mua", JOptionPane.QUESTION_MESSAGE))  ;
+
+            }
+        }
+    }//GEN-LAST:event_tblDSSPMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddHDC;
@@ -668,8 +799,8 @@ public class Form_BanHang extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable tblDSSP;
+    private javax.swing.JTable tblGH;
     private javax.swing.JTable tblHDC;
     private javax.swing.JTextField txtLoai;
     private javax.swing.JTextField txtMaAP;

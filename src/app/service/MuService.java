@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import app.model.ChatLieu;
 import app.model.KieuDang;
+import app.model.MauSac;
 import app.model.Mu;
 
 /**
@@ -38,6 +39,28 @@ public class MuService {
             e.printStackTrace(System.out);
         }
         return list;
+    }
+
+    public Mu getMSbyMa(String maMu) {
+        String sql = "select * from MU\n"
+                + "where KIEUMU = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maMu);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                Mu m = new Mu();
+                m.setId(rs.getInt("IDMU"));
+                m.setMaMu(rs.getString("MAMU"));
+                m.setTenMu(rs.getString("KIEUMU"));
+                m.setTrangThai(rs.getBoolean("TRANGTHAI"));
+                return m;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Integer addMu(Mu m) {

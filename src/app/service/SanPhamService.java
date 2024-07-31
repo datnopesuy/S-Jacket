@@ -43,6 +43,28 @@ public class SanPhamService {
         }
         return list;
     }
+    
+        public SanPham getSanPhambyID(Integer id) {
+        String sql = "select IDSANPHAM ,MASP, TENSP, TRANGTHAI \n"
+                + "from SANPHAM"
+                + "where IDSANPHAM = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setInt(1, id);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setId(rs.getInt("IDSANPHAM"));
+                sp.setMaSP(rs.getString("MASP"));
+                sp.setTenSP(rs.getString("TENSP"));
+                sp.setTrangThai(rs.getBoolean("TRANGTHAI"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
+    }
 
     public Integer addSanPham(SanPham sp) {
         Integer row = null;

@@ -39,6 +39,28 @@ public class KieuDangService {
         return list;
     }
 
+    public KieuDang getKDbyMa(String maKD) {
+        String sql = "select * from KIEUDANG\n"
+                + "where TENKIEUDANG = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maKD);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                KieuDang kd = new KieuDang();
+                kd.setId(rs.getInt("IDKIEUDANG"));
+                kd.setMaKieuDang(rs.getString("MAKIEUDANG"));
+                kd.setTenKieuDang(rs.getString("TENKIEUDANG"));
+                kd.setTrangThai(rs.getBoolean("TRANGTHAI"));
+                return kd;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Integer addKieuDang(KieuDang kd) {
         Integer row = null;
         String sql = "insert into KIEUDANG(MAKIEUDANG, TENKIEUDANG, TRANGTHAI)"
@@ -55,8 +77,8 @@ public class KieuDangService {
         }
         return row;
     }
-    
-        public Integer updateKieuDang(KieuDang kd) {
+
+    public Integer updateKieuDang(KieuDang kd) {
         Integer row = null;
         String sql = "update KIEUDANG\n"
                 + "set TRANGTHAI = ?, TENKIEUDANG = ?\n"

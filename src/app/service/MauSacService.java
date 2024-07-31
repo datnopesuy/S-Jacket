@@ -4,6 +4,7 @@
  */
 package app.service;
 
+import app.model.LopLot;
 import app.service.DBConnect;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,6 +39,28 @@ public class MauSacService {
             e.printStackTrace(System.out);
         }
         return list;
+    }
+    
+        public MauSac getMSbyMa(String maMS) {
+        String sql = "select * from MAUSAC\n"
+                + "where TENMAU = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maMS);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                MauSac ms = new MauSac();
+                ms.setId(rs.getInt("IDMAUSAC"));
+                ms.setMaMauSac(rs.getString("MAMAU"));
+                ms.setTenMauSac(rs.getString("TENMAU"));
+                ms.setTrangThai(rs.getBoolean("TRANGTHAI"));
+                return ms;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Integer addMauSac(MauSac ms) {

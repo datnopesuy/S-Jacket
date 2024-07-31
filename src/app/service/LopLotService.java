@@ -4,6 +4,7 @@
  */
 package app.service;
 
+import app.model.KieuDang;
 import app.service.DBConnect;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,6 +38,28 @@ public class LopLotService {
             e.printStackTrace(System.out);
         }
         return list;
+    }
+    
+        public LopLot getLLbyMa(String maLL) {
+        String sql = "select * from LOPLOT\n"
+                + "where TENLOPLOT = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maLL);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                LopLot ll = new LopLot();
+                ll.setId(rs.getInt("IDLOPLOT"));
+                ll.setMaLopLot(rs.getString("MALOPLOT"));
+                ll.setTenLopLot(rs.getString("TENLOPLOT"));
+                ll.setTrangThai(rs.getBoolean("TRANGTHAI"));
+                return ll;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Integer addLopLot(LopLot ll) {

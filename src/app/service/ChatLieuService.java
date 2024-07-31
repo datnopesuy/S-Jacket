@@ -36,6 +36,28 @@ public class ChatLieuService {
         }
         return list;
     }
+    
+        public ChatLieu getCLbyMa(String maCL) {
+        String sql = "select * from CHATLIEU\n"
+                + "where MACHATLIEU = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maCL);
+            ResultSet rs = pstm.executeQuery();
+            while(rs.next()){
+                ChatLieu cl = new ChatLieu();
+                cl.setId(rs.getInt("IDCHATLIEU"));
+                cl.setMaChatLieu(rs.getString("MACHATLIEU"));
+                cl.setTenChatLieu(rs.getString("TENCHATLIEU"));
+                cl.setTrangThai(rs.getBoolean("TRANGTHAI"));
+                return cl;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public Integer addChatLieu(ChatLieu cl) {
         Integer row = null;
