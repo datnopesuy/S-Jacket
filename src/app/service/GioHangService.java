@@ -141,4 +141,38 @@ public class GioHangService {
         return row;
     }
 
+    public Integer updateSLGH(HoaDonChiTiet1 hdct, int soLuongSua, int idHoaDon) {
+        Integer row = null;
+        String sql = "update HOADONCHITIET \n"
+                + "set SOLUONG = ?\n"
+                + "where IDSPCT = ? and IDHOADON = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setInt(1, soLuongSua);
+            pstm.setInt(2, hdct.getSanPhamChiTiet().getIdSPCT());
+            pstm.setInt(3, idHoaDon);
+            row = pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    public Integer deleteGH(HoaDonChiTiet1 hdct, int idHoaDon, int idSPCT) {
+        Integer row = null;
+        String sql = "delete from HOADONCHITIET\n"
+                + " where IDHOADON = ? and IDSPCT = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setInt(1, idHoaDon);
+            pstm.setInt(2, idSPCT);
+            row = pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
 }

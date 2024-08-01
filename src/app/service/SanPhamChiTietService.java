@@ -79,7 +79,7 @@ public class SanPhamChiTietService {
                 kd.setTenKieuDang(rs.getString("TENKIEUDANG"));
 
                 SanPhamChiTiet spct = new SanPhamChiTiet();
-                spct.setIdSPCT(rs.getInt("IDSPCT")); // Ensure the column exists and the correct name is used
+                spct.setIdSPCT(rs.getInt("IDSANPHAM")); // Ensure the column exists and the correct name is used
                 spct.setSanPham(sp);
                 spct.setMauSac(ms);
                 spct.setChatLieu(cl);
@@ -304,7 +304,7 @@ public class SanPhamChiTietService {
                 kd.setTenKieuDang(rs.getString("TENKIEUDANG"));
 
                 SanPhamChiTiet spct = new SanPhamChiTiet();
-                spct.setIdSPCT(rs.getInt("IDSPCT")); // Ensure the column exists and the correct name is used
+                spct.setIdSPCT(rs.getInt("IDSANPHAM")); // Ensure the column exists and the correct name is used
                 spct.setSanPham(sp);
                 spct.setMauSac(ms);
                 spct.setChatLieu(cl);

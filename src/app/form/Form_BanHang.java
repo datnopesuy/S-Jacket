@@ -37,6 +37,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     private final GioHangService ghs = new GioHangService();
     int indexHDC = - 1;
     int indexDSSP = - 1;
+    int soLuongMua = 0;
 
     /**
      * Creates new form Form_BanHang
@@ -51,6 +52,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         tblModelGH.setRowCount(0);
         for (GioHang gh : list) {
             tblModelGH.addRow(new Object[]{
+                gh.getSanPhamChiTiet().getIdSPCT(),
                 gh.getSanPham().getTenSP(),
                 gh.getMauSac().getTenMauSac(),
                 gh.getChatLieu().getMaChatLieu(),
@@ -68,7 +70,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         tblGH.removeAll();
         tblGH.setModel(tblModelGH);
         String headerSP[] = {
-            "Tên sản phẩm", "Màu sắc", "Chất liệu", "Lớp lót", "Mũ", "Size", "Kiểu dáng", "Số lượng", "Thành tiền"
+            "IDSP", "Tên sản phẩm", "Màu sắc", "Chất liệu", "Lớp lót", "Mũ", "Size", "Kiểu dáng", "Số lượng", "Thành tiền"
         };
         tblModelGH.setColumnIdentifiers(headerSP);
         tblModelGH = (DefaultTableModel) tblGH.getModel();
@@ -161,8 +163,21 @@ public class Form_BanHang extends javax.swing.JPanel {
         spct.setIdSPCT(Integer.valueOf(tblDSSP.getValueAt(indexDSSP, 0).toString()));
         HoaDonChiTiet1 hdct1 = new HoaDonChiTiet1();
         hdct1.setSanPhamChiTiet(spct);
-        hdct1.getSoLuong();
+        hdct1.setSoLuong(soLuongMua);
         hdct1.setGia(Double.parseDouble(tblDSSP.getValueAt(indexDSSP, 10).toString()));
+        return hdct1;
+    }
+
+    private HoaDonChiTiet1 getSPCTFromGH() {
+        indexDSSP = tblDSSP.getSelectedRow();
+        indexHDC = tblHDC.getSelectedRow();
+        int indexGH = tblGH.getSelectedRow();
+        SanPhamChiTiet spct = new SanPhamChiTiet();
+        spct.setIdSPCT(Integer.valueOf(tblGH.getValueAt(indexGH, 0).toString()));
+        HoaDonChiTiet1 hdct1 = new HoaDonChiTiet1();
+        hdct1.setSanPhamChiTiet(spct);
+        hdct1.setSoLuong(soLuongMua);
+        hdct1.setGia(Double.parseDouble(tblGH.getValueAt(indexGH, 9).toString()));
         return hdct1;
     }
 
@@ -170,7 +185,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         tblDSSP.removeAll();
         tblDSSP.setModel(tblModelSPCT);
         String headerSPCT[] = {
-            "IDSPCT", "Mã sản phẩm", "Tên sản phẩm", "Màu sắc", "Chất liệu", "Lớp lót", "Mũ", "Size", "Kiểu dáng", "Số lượng", "Giá"
+            "IDSP", "Mã sản phẩm", "Tên sản phẩm", "Màu sắc", "Chất liệu", "Lớp lót", "Mũ", "Size", "Kiểu dáng", "Số lượng", "Giá"
         };
         tblModelSPCT.setColumnIdentifiers(headerSPCT);
         tblModelSPCT = (DefaultTableModel) tblDSSP.getModel();
@@ -198,8 +213,8 @@ public class Form_BanHang extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblGH = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        btnXoaSanPhamCT = new javax.swing.JButton();
+        btnSuaSL = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblDSSP = new javax.swing.JTable();
@@ -341,9 +356,19 @@ public class Form_BanHang extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(tblGH);
 
-        jButton5.setText("Xóa sản phẩm");
+        btnXoaSanPhamCT.setText("Xóa sản phẩm");
+        btnXoaSanPhamCT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaSanPhamCTActionPerformed(evt);
+            }
+        });
 
-        jButton9.setText("Sửa số lượng");
+        btnSuaSL.setText("Sửa số lượng");
+        btnSuaSL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaSLActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -351,9 +376,9 @@ public class Form_BanHang extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(395, Short.MAX_VALUE)
-                .addComponent(jButton9)
+                .addComponent(btnSuaSL)
                 .addGap(50, 50, 50)
-                .addComponent(jButton5)
+                .addComponent(btnXoaSanPhamCT)
                 .addGap(54, 54, 54))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
@@ -364,8 +389,8 @@ public class Form_BanHang extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton9))
+                    .addComponent(btnXoaSanPhamCT)
+                    .addComponent(btnSuaSL))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(22, Short.MAX_VALUE))
@@ -766,34 +791,92 @@ public class Form_BanHang extends javax.swing.JPanel {
         // TODO add your handling code here:
         indexHDC = tblHDC.getSelectedRow();
         indexDSSP = tblDSSP.getSelectedRow();
+        int indexGH = tblGH.getSelectedRow();
         String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
         int idHDC = bhs.getIDHD(maHD);
+        int idSPCT = Integer.parseInt(tblDSSP.getValueAt(indexDSSP, 0).toString());
         System.out.println(maHD);
         System.out.println(idHDC);
         double thanhTien = 0;
-        if (indexHDC >= 0) {
-            if (indexDSSP >= 0) {
-                int soLuongMua = Integer.parseInt(JOptionPane.showInputDialog(this, "Mua nhiu cu:", "Số lượng mua", JOptionPane.QUESTION_MESSAGE));
-                HoaDonChiTiet1 hdct = getSPCTFROMDSSP();
-                ghs.addGH(hdct, soLuongMua, idHDC);
-                LoadDataGH(ghs.getGioHangByMaHD(maHD));
+        int soLuong = Integer.parseInt(tblDSSP.getValueAt(indexDSSP, 9).toString());
+        try {
+            if (indexHDC >= 0) {
+                if (indexDSSP >= 0) {
+                    soLuongMua = Integer.valueOf(JOptionPane.showInputDialog(this, "Mua nhiu cu:", "Số lượng mua", JOptionPane.QUESTION_MESSAGE));
+                    int soLuongCon = soLuong - soLuongMua;
+                    HoaDonChiTiet1 hdct = getSPCTFROMDSSP();
+                    ghs.addGH(hdct, soLuongMua, idHDC);
+                    bhs.updateSLDSSP1(idSPCT, soLuongCon);
+                    loadDataSPCT(spcts.getAllSPCTHD());
+                    LoadDataGH(ghs.getGioHangByMaHD(maHD));
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_tblDSSPMouseClicked
+
+    private void btnXoaSanPhamCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSanPhamCTActionPerformed
+        // TODO add your handling code here:
+        int indexGH = tblGH.getSelectedRow();
+        if (indexGH < 0) {
+            JOptionPane.showMessageDialog(this, "Chọn sản phẩm đi bố!!!");
+            return;
+        }
+        indexHDC = tblHDC.getSelectedRow();
+        String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
+        int idHDC = bhs.getIDHD(maHD);
+        int idSPCT = Integer.parseInt(tblGH.getValueAt(indexGH, 0).toString());
+        int soLuongXoa = Integer.parseInt(tblGH.getValueAt(indexGH, 8).toString());
+        int soLuongSP = bhs.getSlSPCT(idSPCT);
+
+        HoaDonChiTiet1 hdct = getSPCTFromGH();
+        int soLuongCon = soLuongSP + soLuongXoa;
+        bhs.updateSLDSSP1(idSPCT, soLuongCon);
+        ghs.deleteGH(hdct, idHDC, idSPCT);
+        loadDataSPCT(spcts.getAllSPCTHD());
+        LoadFormGH();
+
+    }//GEN-LAST:event_btnXoaSanPhamCTActionPerformed
+
+    private void btnSuaSLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaSLActionPerformed
+        // TODO add your handling code here:
+        HoaDonChiTiet1 hdct = getSPCTFromGH();
+        indexHDC = tblHDC.getSelectedRow();
+        int indexGH = tblGH.getSelectedRow();
+        int idSPCT = Integer.valueOf(tblGH.getValueAt(indexGH, 0).toString());
+        String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
+        int idHDC = bhs.getIDHD(maHD);
+        int soLuong = bhs.getSlSPCT(idSPCT);
+        int soLuongGH = Integer.valueOf(tblGH.getValueAt(indexGH, 8).toString());
+        if (indexGH < 0) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn sản phẩm cần sửa");
+            return ;
+        }
+        int soLuongSua = Integer.valueOf(JOptionPane.showInputDialog(this, "Sửa số lượng:", "Số lượng sửa", JOptionPane.QUESTION_MESSAGE));
+        
+        ghs.updateSLGH(hdct, soLuongSua, idHDC);
+        int soLuongCon = soLuong - ( soLuongSua - soLuongGH );
+        bhs.updateSLDSSP1(idSPCT, soLuongCon);
+        
+        LoadFormGH();
+        loadDataSPCT(spcts.getAllSPCTHD());
+
+    }//GEN-LAST:event_btnSuaSLActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddHDC;
     private javax.swing.JButton btnDeleteHDC;
+    private javax.swing.JButton btnSuaSL;
+    private javax.swing.JButton btnXoaSanPhamCT;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

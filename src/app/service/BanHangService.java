@@ -106,9 +106,40 @@ public class BanHangService {
         return null;
     }
 
-    
+    public Integer updateSLDSSP1(int idSPCT, int soLuongCon) {
+        Integer row = null;
+        String sql = "update SANPHAMCHITIET \n"
+                + " set SOLUONG = ?\n"
+                + " where IDSPCT = ? ";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setInt(2, idSPCT);
+            pstm.setInt(1, soLuongCon);
+            row = pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
 
-
+    public Integer getSlSPCT(int idSPCT) {
+        String sql = "select SOLUONG \n"
+                + "from SANPHAMCHITIET\n"
+                + "where IDSPCT = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setInt(1, idSPCT);
+            ResultSet rs = pstm.executeQuery();
+            while(rs.next()){
+                return rs.getInt("SOLUONG");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 //    public ArrayList<HoaDonChiTiet> getHDCTByMaHD(String maHD) {
 //        ArrayList<HoaDonChiTiet> list = new ArrayList<>();
