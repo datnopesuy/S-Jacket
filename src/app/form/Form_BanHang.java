@@ -192,6 +192,17 @@ public class Form_BanHang extends javax.swing.JPanel {
         loadDataSPCT(spcts.getAllSPCTHD());
     }
 
+    public GioHang getSPCTInGH(int idHDC, int idSPCT) {
+        indexHDC = tblHDC.getSelectedRow();
+        String maHDC = tblHDC.getValueAt(indexHDC, 0).toString();
+        for (GioHang gh : ghs.getGioHangByMaHD(maHDC)) {
+            if (gh.getHoaDon().getIdHoaDon() == idHDC && gh.getSanPhamChiTiet().getIdSPCT() == idSPCT) {
+                return gh;
+            }
+        }
+        return null; // Trả về null nếu không tìm thấy
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -789,30 +800,47 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     private void tblDSSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDSSPMouseClicked
         // TODO add your handling code here:
-        indexHDC = tblHDC.getSelectedRow();
-        indexDSSP = tblDSSP.getSelectedRow();
-        int indexGH = tblGH.getSelectedRow();
-        String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
-        int idHDC = bhs.getIDHD(maHD);
-        int idSPCT = Integer.parseInt(tblDSSP.getValueAt(indexDSSP, 0).toString());
-        System.out.println(maHD);
-        System.out.println(idHDC);
-        double thanhTien = 0;
-        int soLuong = Integer.parseInt(tblDSSP.getValueAt(indexDSSP, 9).toString());
+
         try {
+            indexHDC = tblHDC.getSelectedRow();
+            indexDSSP = tblDSSP.getSelectedRow();
+            int indexGH = tblGH.getSelectedRow();
+            String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
+            int idHDC = bhs.getIDHD(maHD);
+            int idSPCT = Integer.parseInt(tblDSSP.getValueAt(indexDSSP, 0).toString());
+            System.out.println(maHD);
+            System.out.println(idHDC);
+            double thanhTien = 0;
+            int soLuong = Integer.parseInt(tblDSSP.getValueAt(indexDSSP, 9).toString());
             if (indexHDC >= 0) {
                 if (indexDSSP >= 0) {
+                    GioHang gh = getSPCTInGH(idHDC, idSPCT);
+                    if (gh != null) {
+                        JOptionPane.showMessageDialog(this, "Sản phẩm này đã có trên giỏ hàng hãy bấm sửa số lượng để mua thêm!!");
+                        return;
+                    } 
                     soLuongMua = Integer.valueOf(JOptionPane.showInputDialog(this, "Mua nhiu cu:", "Số lượng mua", JOptionPane.QUESTION_MESSAGE));
+                    if (soLuongMua > soLuong) {
+                        JOptionPane.showMessageDialog(this, "Số lượng sản phẩm không đủ");
+                        return;
+                    } else if (soLuongMua < 0) {
+                        JOptionPane.showMessageDialog(this, "Số lượng không phải là số âm");
+                        return;
+                    }
+
                     int soLuongCon = soLuong - soLuongMua;
-                    HoaDonChiTiet1 hdct = getSPCTFROMDSSP();
-                    ghs.addGH(hdct, soLuongMua, idHDC);
-                    bhs.updateSLDSSP1(idSPCT, soLuongCon);
-                    loadDataSPCT(spcts.getAllSPCTHD());
-                    LoadDataGH(ghs.getGioHangByMaHD(maHD));
+                    
+                        HoaDonChiTiet1 hdct = getSPCTFROMDSSP();
+                        ghs.addGH(hdct, soLuongMua, idHDC);
+                        bhs.updateSLDSSP1(idSPCT, soLuongCon);
+                        loadDataSPCT(spcts.getAllSPCTHD());
+                        LoadDataGH(ghs.getGioHangByMaHD(maHD));
+                    
+
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Số lượng mua phải là chữ số");
         }
     }//GEN-LAST:event_tblDSSPMouseClicked
 
@@ -841,27 +869,32 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     private void btnSuaSLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaSLActionPerformed
         // TODO add your handling code here:
-        HoaDonChiTiet1 hdct = getSPCTFromGH();
-        indexHDC = tblHDC.getSelectedRow();
-        int indexGH = tblGH.getSelectedRow();
-        int idSPCT = Integer.valueOf(tblGH.getValueAt(indexGH, 0).toString());
-        String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
-        int idHDC = bhs.getIDHD(maHD);
-        int soLuong = bhs.getSlSPCT(idSPCT);
-        int soLuongGH = Integer.valueOf(tblGH.getValueAt(indexGH, 8).toString());
-        if (indexGH < 0) {
-            JOptionPane.showMessageDialog(this, "Bạn chưa chọn sản phẩm cần sửa");
-            return ;
+        try {
+            HoaDonChiTiet1 hdct = getSPCTFromGH();
+            indexHDC = tblHDC.getSelectedRow();
+            int indexGH = tblGH.getSelectedRow();
+            int idSPCT = Integer.valueOf(tblGH.getValueAt(indexGH, 0).toString());
+            String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
+            int idHDC = bhs.getIDHD(maHD);
+            int soLuong = bhs.getSlSPCT(idSPCT);
+            int soLuongGH = Integer.valueOf(tblGH.getValueAt(indexGH, 8).toString());
+            if (indexGH < 0) {
+                JOptionPane.showMessageDialog(this, "Bạn chưa chọn sản phẩm cần sửa");
+                return;
+            }
+            int soLuongSua = Integer.valueOf(JOptionPane.showInputDialog(this, "Sửa số lượng:", "Số lượng sửa", JOptionPane.QUESTION_MESSAGE));
+            if (soLuongSua == 0) {
+                JOptionPane.showMessageDialog(this, "Không mua nữa thì bấm xóa sản phẩm điiii");
+                return;
+            }
+            ghs.updateSLGH(hdct, soLuongSua, idHDC);
+            int soLuongCon = soLuong - (soLuongSua - soLuongGH);
+            bhs.updateSLDSSP1(idSPCT, soLuongCon);
+            LoadFormGH();
+            loadDataSPCT(spcts.getAllSPCTHD());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Số lượng phải là số");
         }
-        int soLuongSua = Integer.valueOf(JOptionPane.showInputDialog(this, "Sửa số lượng:", "Số lượng sửa", JOptionPane.QUESTION_MESSAGE));
-        
-        ghs.updateSLGH(hdct, soLuongSua, idHDC);
-        int soLuongCon = soLuong - ( soLuongSua - soLuongGH );
-        bhs.updateSLDSSP1(idSPCT, soLuongCon);
-        
-        LoadFormGH();
-        loadDataSPCT(spcts.getAllSPCTHD());
-
     }//GEN-LAST:event_btnSuaSLActionPerformed
 
 
