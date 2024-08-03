@@ -40,8 +40,7 @@ public class Form_KhachHang extends javax.swing.JPanel {
     List<KhachHang> listKh = new ArrayList();
     SimpleDateFormat sds = new SimpleDateFormat("yyy-MM-dd");
     private int i = -1;
-    String gender = "";
-    
+
     public Form_KhachHang() {
         initComponents();
         tbl = (DefaultTableModel) tblKhachHang.getModel();
@@ -49,17 +48,18 @@ public class Form_KhachHang extends javax.swing.JPanel {
         i = khService.getall().size();
         fillComBoGioiTinh();
         txtmaKH.setEnabled(false);
-        
+
     }
-    
+
     void fillComBoGioiTinh() {
         boxModel = (DefaultComboBoxModel) cboLoc.getModel();
         boxModel.removeAllElements();
+        boxModel.addElement("Tất cả");
         boxModel.addElement("Nam");
         boxModel.addElement("Nữ");
-        
+
     }
-    
+
     private void fillTable(List<KhachHang> list) {
         tbl.setRowCount(0);
         int stt = tblKhachHang.getSelectedRow();
@@ -78,7 +78,7 @@ public class Form_KhachHang extends javax.swing.JPanel {
             );
         }
     }
-    
+
     void showTable(KhachHang kh) {
         txtmaKH.setText(kh.getMaKH());
         txtEmail.setText(kh.getEmail());
@@ -90,9 +90,9 @@ public class Form_KhachHang extends javax.swing.JPanel {
         } else {
             rdNu.setSelected(true);
         }
-        
+
     }
-    
+
     public void reset() {
         txtEmail.setText("");
         txtNgaysinh.setDate(null);
@@ -100,22 +100,28 @@ public class Form_KhachHang extends javax.swing.JPanel {
         txttenKH.setText("");
         txtmaKH.setText("");
         buttonGroup1.clearSelection();
-        
+
     }
-    
+
     public boolean check() {
-        
+
         String tenKhachHang = txttenKH.getText().trim();
         if (tenKhachHang.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        String ngaySinh = txtNgaysinh.getDateFormatString().trim();
-        if (ngaySinh.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        Date ngaySinh = txtNgaysinh.getDate();
+        if (ngaySinh == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày sinh!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
+
+        Date today = new Date();
+        if (ngaySinh.after(today)) {
+            JOptionPane.showMessageDialog(this, "Ngày sinh không được sau ngày hôm nay!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         String email = txtEmail.getText().trim();
         if (tenKhachHang.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -127,26 +133,38 @@ public class Form_KhachHang extends javax.swing.JPanel {
             return false;
         }
         
+            // Kiểm tra độ dài tên
+    if (tenKhachHang.length() < 2) {
+        JOptionPane.showMessageDialog(this, "Tên khách hàng phải có ít nhất 2 ký tự");
+        return false;
+    }
+
         Pattern ptt1 = Pattern.compile("^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆ\n"
                 + "fFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTu\n"
                 + "UùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ ]+$");
 
 // Kiểm tra nếu tên không hợp lệ hoặc độ dài dưới 2 ký tự
-        if (ptt1.matcher(txttenKH.getText()).find() == false || txttenKH.getText().length() <= 2) {
+        if (ptt1.matcher(txttenKH.getText()).find() == false ) {
             JOptionPane.showMessageDialog(this, "Tên khách hàng không hợp lệ(Tên không được phép có ký tự đặc biệt và số)");
             return false;
         }
-        
+
         Pattern ptt2 = Pattern.compile("^0\\d{9,10}$");
         if (ptt2.matcher(sdt).find() == false) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ");
+            JOptionPane.showMessageDialog(this, "Số điện thoại bắt đầu bằng 0 và có 10 số");
             return false;
         }
-        
+
+        Pattern emailPattern = Pattern.compile("^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,6}$");
+        if (!emailPattern.matcher(email).matches()) {
+            JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+            return false;
+        }
+
         return true;
-        
+
     }
-    
+
     boolean checkTrungSDT() {
         for (KhachHang kh : khService.getall()) {
             if (kh.getSdt().equalsIgnoreCase(txtSDt.getText())) {
@@ -156,7 +174,7 @@ public class Form_KhachHang extends javax.swing.JPanel {
         }
         return true;
     }
-    
+
     private KhachHang getForm() {
         SimpleDateFormat sds = new SimpleDateFormat("yyy-MM-dd");
         String maKH;
@@ -166,12 +184,12 @@ public class Form_KhachHang extends javax.swing.JPanel {
         try {
             ns = sds.parse(sds.format(txtNgaysinh.getDate()));
         } catch (Exception e) {
-            
+
         }
         String email;
-        
+
         Date ngayTao;
-        
+
         boolean gioiTinh;
         maKH = "KH" + new Random().nextInt(10000);
         for (KhachHang kh : khService.getall()) {
@@ -179,14 +197,14 @@ public class Form_KhachHang extends javax.swing.JPanel {
                 maKH = "KH" + new Random().nextInt(10000);
             }
         }
-        
+
         ten = txttenKH.getText();
         sdt = txtSDt.getText();
-        
+
         email = txtEmail.getText();
         ngayTao = new java.util.Date();
         gioiTinh = rdnam.isSelected();
-        
+
         return new KhachHang(maKH, ten, sdt, ns, email, ngayTao, gioiTinh, true);
     }
 
@@ -419,6 +437,11 @@ public class Form_KhachHang extends javax.swing.JPanel {
                 "STT", "Mã hóa đơn", "Ngày tạo", "Tổng tiền", "Trạng thái"
             }
         ));
+        tblLichSuMuaHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblLichSuMuaHangMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblLichSuMuaHang);
 
         javax.swing.GroupLayout jPanelLichSuKhachHangLayout = new javax.swing.GroupLayout(jPanelLichSuKhachHang);
@@ -635,7 +658,7 @@ public class Form_KhachHang extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         int result
-                = JOptionPane.showConfirmDialog(null, "Bạn có muốn thêm Khách Hàng này không ?", "", JOptionPane.YES_NO_OPTION);
+                = JOptionPane.showConfirmDialog(null, "Bạn có muốn thêm khách hàng này không ?", "", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
             if (check() && checkTrungSDT()) {
                 if (khService.addKh(getForm()) > 0) {
@@ -653,16 +676,16 @@ public class Form_KhachHang extends javax.swing.JPanel {
         int result
                 = JOptionPane.showConfirmDialog(null, "Bạn có muốn sửa Khách Hàng này không ?", "", JOptionPane.YES_NO_OPTION);
         KhachHang kh = khService.getall().get(tblKhachHang.getSelectedRow());
-        
+
         if (result == JOptionPane.YES_OPTION) {
             if (check()) {
-                
+
                 if (khService.updateKh(getForm(), kh.getId()) > 0) {
                     System.out.println("id" + kh.getId());
                     JOptionPane.showMessageDialog(this, "Sửa thành công!");
                     fillTable(khService.getall());
                     reset();
-                    
+
                 } else {
                     System.out.println("1");
                     JOptionPane.showMessageDialog(this, "Sửa thất bại!");
@@ -681,7 +704,7 @@ public class Form_KhachHang extends javax.swing.JPanel {
         fillTable(khService.search(timkiem));
         if (timkiem.trim().isEmpty()) {
             fillTable(khService.getall());
-            
+
         }
     }//GEN-LAST:event_txtTimkiemKeyReleased
 
@@ -690,7 +713,7 @@ public class Form_KhachHang extends javax.swing.JPanel {
         int result = 0;
         List<KhachHang> list = khService.getall();
         int choose = tblKhachHang.getSelectedRow();
-        JOptionPane.showConfirmDialog(null, "Bạn có muốn Xóa Khách Hàng này không ?", "", JOptionPane.YES_NO_OPTION);
+        JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa khách hàng này không ?", "", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
             if (khService.deleteKH(getForm(), txtmaKH.getText()) > 0) {
                 JOptionPane.showMessageDialog(this, "Xóa thành công!");
@@ -756,7 +779,7 @@ public class Form_KhachHang extends javax.swing.JPanel {
                     cell.setCellValue(list.get(i).getEmail());
                     cell = row.createCell(6, CellType.STRING);
                     cell.setCellValue(list.get(i).getSdt());
-                    
+
                 }
             }
             // save file
@@ -782,15 +805,30 @@ public class Form_KhachHang extends javax.swing.JPanel {
 
     private void cboLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLocActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_cboLocActionPerformed
 
     private void btnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocActionPerformed
         // TODO add your handling code here:
-        listKh = khService.loc(gender);
-    System.out.println("btnLocActionPerformed() loc() returned " + listKh.size() + " items.");  // Debug output
+        String gender = cboLoc.getSelectedItem().toString();
+        List<KhachHang> listKh;
+
+        if ("Tất cả".equals(gender)) {
+            // Nếu chọn "Tất cả", không lọc theo giới tính
+            listKh = khService.getall();
+        } else {
+            // Nếu chọn giới tính cụ thể, lọc theo giới tính đó
+            listKh = khService.loc(gender);
+        }
+
+        System.out.println("btnLocActionPerformed() loc() returned " + listKh.size() + " items.");  // Debug output
         fillTable(listKh);
     }//GEN-LAST:event_btnLocActionPerformed
+
+    private void tblLichSuMuaHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLichSuMuaHangMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_tblLichSuMuaHangMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -28,7 +28,7 @@ public class KhachHang {
     public boolean isTrangThai() {
         return trangThai;
     }
-
+    
     public void setTrangThai(boolean trangThai) {
         this.trangThai = trangThai;
     }
@@ -63,6 +63,12 @@ public class KhachHang {
         this.gioiTinh = gioiTinh;
     }
 
+    public KhachHang(String maKH, String tenKH, String sdt) {
+        this.maKH = maKH;
+        this.tenKH = tenKH;
+        this.sdt = sdt;
+    }
+    
     public KhachHang(String maKH, String tenKH, String sdt, Date ngaySinh, String email, Date ngayTao, boolean gioiTinh, boolean trangThai) {
         this.maKH = maKH;
         this.tenKH = tenKH;

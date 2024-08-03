@@ -8,10 +8,12 @@ import app.model.GioHang;
 import app.model.HoaDon;
 import app.model.HoaDonChiTiet;
 import app.model.HoaDonChiTiet1;
+import app.model.KhachHang;
 import app.model.SanPham;
 import app.model.SanPhamChiTiet;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -32,6 +34,7 @@ public class BanHangService {
                 hd.setMaHoaDon(rs.getString("MAHOADON"));
                 hd.setIdKhachHang(rs.getInt("IDKHACHHANG"));
                 hd.setNgayTao(rs.getDate("NGAYTAO"));
+                hd.setTongTien(rs.getDouble("TONGTIEN"));
                 hd.setTrangThai(rs.getBoolean("TRANGTHAI"));
                 list.add(hd);
             }
@@ -105,6 +108,23 @@ public class BanHangService {
         }
         return null;
     }
+    
+        public Double getTongTienHD(String maHD) {
+        String sql = "select TONGTIEN from HOADON"
+                + " where MAHOADON = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maHD);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return rs.getDouble("TONGTIEN");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public Integer updateSLDSSP1(int idSPCT, int soLuongCon) {
         Integer row = null;
@@ -132,7 +152,7 @@ public class BanHangService {
             PreparedStatement pstm = con.prepareStatement(sql);
             pstm.setInt(1, idSPCT);
             ResultSet rs = pstm.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 return rs.getInt("SOLUONG");
             }
         } catch (Exception e) {
@@ -141,78 +161,107 @@ public class BanHangService {
         return null;
     }
 
-//    public ArrayList<HoaDonChiTiet> getHDCTByMaHD(String maHD) {
-//        ArrayList<HoaDonChiTiet> list = new ArrayList<>();
-//        String sql = "select hdct.IDHDCT, hd.IDHOADON, hdct.IDSPCT, hdct.SOLUONG, hdct.SOLUONG * hdct.GIA as THANHTIEN\n"
-//                + "from HOADONCHITIET hdct \n"
-//                + "join HOADON hd on hd.IDHOADON = hdct.IDHOADON\n"
-//                + "join SANPHAMCHITIET spct on  spct.IDSPCT = hdct.IDSPCT \n"
-//                + "join SANPHAM sp on sp.IDSANPHAM = spct.IDSANPHAM\n"
-//                + "join MAUSAC ms on ms.IDMAUSAC = spct.IDMAUSAC\n"
-//                + "join CHATLIEU cl on cl.IDCHATLIEU = spct.IDCHATLIEU\n"
-//                + "join LOPLOT ll on ll.IDLOPLOT = spct.IDLOPLOT\n"
-//                + "join MU m on m.IDMU = spct.IDMU\n"
-//                + "join SIZE s on s.IDSIZE = spct.IDSIZE\n"
-//                + "join KIEUDANG kd on kd.IDKIEUDANG = spct.IDKIEUDANG\n"
-//                + "where hd.MAHOADON = ?";
-//        Connection con = DBConnect.getConnection();
-//        try {
-//            PreparedStatement pstm = con.prepareStatement(sql);
-//            pstm.setString(1, maHD);
-//            ResultSet rs = pstm.executeQuery();
-//            while (rs.next()) {
-//                HoaDonChiTiet hdct = new HoaDonChiTiet();
-//                hdct.setIDHoaDonChiTiet(rs.getInt("IDHDCT"));
-//                hdct.setIDHoaDon(rs.getInt("IDHOADON"));
-//                hdct.setIDHSanPhamChiTiet(rs.getInt("IDSPCT"));
-//                hdct.setSoLuong(rs.getInt("SOLUONG"));
-//                hdct.setGia(rs.getDouble("GIA"));
-//                hdct.setThanhTien(rs.getDouble("THANHTIEN"));
-//                list.add(hdct);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return list;
-//    }
-//    public Integer addHDCTBySL(HoaDonChiTiet hdct, int soLuong) {
-//        Integer row = null;
-//        String sql = "insert into HOADONCHITIET(IDHOADON, IDSPCT, SOLUONG, GIA, THANHTIEN)\n"
-//                + "values(?, ?, ?, ?, ?)";
-//        Connection con = DBConnect.getConnection();
-//        try {
-//            PreparedStatement pstm = con.prepareStatement(sql);
-//            pstm.setInt(1, hdct.getIDHoaDon());
-//            pstm.setInt(2, hdct.getIDHSanPhamChiTiet());
-//            pstm.setInt(3, soLuong);
-//            pstm.setDouble(4, hdct.getGia());
-//            pstm.setDouble(5, hdct.getThanhTien());
-//            row = pstm.executeUpdate();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-//    
-//    public HoaDon getHoaDonByMaHD(String maHD){
-//        String sql = "select * from HOADON"
-//                + "where MAHOADON = ?";
-//        Connection con = DBConnect.getConnection();
-//        try {
-//            PreparedStatement pstm = con.prepareStatement(sql);
-//            pstm.setString(1, maHD);
-//            ResultSet rs = pstm.executeQuery();
-//            while(rs.next()){
-//                HoaDon hd = new HoaDon();
-//                hd.setIdHoaDon(rs.getInt("IDHOADON"));
-//                hd.setMaHoaDon(maHD);
-//                hd.setTongTien(rs.getDouble("TONGTIEN"));
-//                hd.setTrangThai(rs.getBoolean("TRANGTHAI"));
-//                return hd;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+    public Integer thanhToan(int idHD) {
+        Integer row = null;
+        String sql = "update HOADON \n"
+                + " set TRANGTHAI = 1\n"
+                + " where IDHOADON = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setInt(1, idHD);
+            row = pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    public int UpdateHD(String maKH, String trangThai, String maHD) {
+        int result = -1;
+        try {
+            String sql = "update HoaDon set idKhachHang=(select idKhachHang from KhachHang where MaKhachHang=?),TrangThai=? where MaHoaDon=?";
+            Connection con = DBConnect.getConnection();
+            PreparedStatement ps = con.prepareCall(sql);
+            ps.setObject(1, maKH);
+            ps.setObject(2, trangThai);
+            ps.setObject(3, maHD);
+            result = ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = 0;
+        }
+        return result;
+    }
+
+    public KhachHang getbySDTKhachHang(String SDT) {
+        try {
+            List<KhachHang> listKhachHang = new ArrayList();
+            String sqlKH = "select * from KHACHHANG where SDT = ?";
+            Connection con = DBConnect.getConnection();
+            PreparedStatement ps = con.prepareCall(sqlKH);
+            ps.setObject(1, SDT);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                KhachHang kh = new KhachHang();
+                kh.setId(rs.getInt(1));
+                kh.setMaKH(rs.getString(2));
+                kh.setTenKH(rs.getString(3));
+                kh.setGioiTinh(rs.getBoolean(4));
+                kh.setSdt(rs.getString(5));
+                kh.setNgaySinh(rs.getDate(6));
+                kh.setEmail(rs.getString(7));
+                kh.setNgayTao(rs.getDate(8));
+                kh.setNgaySua(rs.getDate(9));
+                kh.setNguoiTao(rs.getString(10));
+                kh.setNguoiSua(rs.getString(11));
+                kh.setTrangThai(rs.getBoolean(12));
+                listKhachHang.add(kh);
+            }
+            if (listKhachHang.isEmpty()) {
+                return null;
+            }
+            return listKhachHang.get(0);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Integer addKhachHang(KhachHang kh) {
+        int result = 0;
+        String sql = "insert into KHACHHANG(MAKHACHHANG, HOTEN, SDT, TRANGTHAI) values (?,?,?,1)";
+        try {
+            Connection con = DBConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setObject(1, kh.getMaKH());
+            ps.setObject(2, kh.getTenKH());
+            ps.setObject(3, kh.getSdt());
+
+            result = ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return result;
+    }
+
+    public Integer updateTongTien(int idHDC, double tongTien) {
+        Integer row = null;
+        String sql = "update HOADON\n"
+                + "set TONGTIEN = ?\n"
+                + "where IDHOADON = ? ";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setDouble(1, tongTien);
+            pstm.setInt(2, idHDC);
+            row = pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
 }
