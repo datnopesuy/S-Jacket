@@ -108,8 +108,8 @@ public class BanHangService {
         }
         return null;
     }
-    
-        public Double getTongTienHD(String maHD) {
+
+    public Double getTongTienHD(String maHD) {
         String sql = "select TONGTIEN from HOADON"
                 + " where MAHOADON = ?";
         Connection con = DBConnect.getConnection();
@@ -161,20 +161,115 @@ public class BanHangService {
         return null;
     }
 
-    public Integer thanhToan(int idHD) {
+    public Integer thanhToan(int idHD, int idKH, int idVoucher, int idNV, int idHDCT) {
         Integer row = null;
         String sql = "update HOADON \n"
-                + " set TRANGTHAI = 1\n"
-                + " where IDHOADON = ?";
+                + "set TRANGTHAI = 1, IDKHACHHANG = ?, IDNHANVIEN = ?, IDVOUCHER = ?, NGAYTHANHTOAN = GETDATE(), IDHDCT = ?\n"
+                + "where IDHOADON = ?";
         Connection con = DBConnect.getConnection();
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
-            pstm.setInt(1, idHD);
+            pstm.setInt(1, idKH);
+            pstm.setInt(2, idNV);
+            pstm.setInt(3, idVoucher);
+            pstm.setInt(4, idHDCT);
+            pstm.setInt(5, idHD);
             row = pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return row;
+    }
+    
+        public Integer thanhToan1(int idHD, int idKH, int idNV, int idHDCT) {
+        Integer row = null;
+        String sql = "update HOADON \n"
+                + "set TRANGTHAI = 1, IDKHACHHANG = ?, IDNHANVIEN = ?, NGAYTHANHTOAN = GETDATE(), IDHDCT = ?\n"
+                + "where IDHOADON = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setInt(1, idKH);
+            pstm.setInt(2, idNV);
+            pstm.setInt(3, idHDCT);
+            pstm.setInt(4, idHD);
+            row = pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    public Integer getIDKHBySDT(String sdt) {
+        String sql = "select IDKHACHHANG\n"
+                + "from KHACHHANG\n"
+                + "where SDT = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, sdt);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("IDKHACHHANG");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Integer getIDVoucherByMa(String maVoucher) {
+        String sql = "select IDVOUCHER\n"
+                + "from VOUCHER\n"
+                + "where MAVOUCHER = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maVoucher);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("IDVOUCHER");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Integer getIDNhanVienByMa(String maNV) {
+        String sql = "select IDNHANVIEN\n"
+                + "from NHANVIEN\n"
+                + "where MANHANVIEN = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maNV);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("IDNHANVIEN");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Integer getIDHDCTByMa(String maHD) {
+        String sql = "select IDHDCT\n"
+                + "from HOADON\n"
+                + "where MAHOADON = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, maHD);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("IDHDCT");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public int UpdateHD(String maKH, String trangThai, String maHD) {

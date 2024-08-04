@@ -44,6 +44,8 @@ public class Form_BanHang extends javax.swing.JPanel {
     int indexDSSP = - 1;
     int soLuongMua = 0;
     double tongTien = 0;
+    double tienKhachTra = 0;
+    double tienThua = 0;
 
     /**
      * Creates new form Form_BanHang
@@ -52,7 +54,14 @@ public class Form_BanHang extends javax.swing.JPanel {
         initComponents();
         loadFormHDC();
         loadFormSPCT();
-
+        
+    }
+    
+    private void tinhTien(){
+            tongTien = Double.valueOf(txtTienHD.getText());
+            tienKhachTra = Double.valueOf(txtTienKhachTra.getText());
+            tienThua = tongTien - tienKhachTra;
+            txtTienThua.setText(String.valueOf(tienThua));   
     }
 
     private void LoadDataGH(ArrayList<GioHang> list) {
@@ -241,7 +250,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         jPanel6 = new javax.swing.JPanel();
         btnKhachHang = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
+        btnThanhToan = new javax.swing.JButton();
         txtNhapSDT = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         txtTenKH = new javax.swing.JTextField();
@@ -485,7 +494,12 @@ public class Form_BanHang extends javax.swing.JPanel {
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/app/icon/icon/sale.png"))); // NOI18N
 
-        jButton11.setText("Thanh toán");
+        btnThanhToan.setText("Thanh toán");
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanActionPerformed(evt);
+            }
+        });
 
         txtNhapSDT.setText("Nhập số điện thoại");
         txtNhapSDT.setBorder(null);
@@ -563,6 +577,16 @@ public class Form_BanHang extends javax.swing.JPanel {
                 txtTienKhachTraFocusGained(evt);
             }
         });
+        txtTienKhachTra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTienKhachTraActionPerformed(evt);
+            }
+        });
+        txtTienKhachTra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTienKhachTraKeyPressed(evt);
+            }
+        });
 
         txtTienThua.setText("Tiền thừa");
         txtTienThua.setBorder(null);
@@ -571,12 +595,17 @@ public class Form_BanHang extends javax.swing.JPanel {
                 txtTienThuaFocusGained(evt);
             }
         });
+        txtTienThua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTienThuaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -660,7 +689,7 @@ public class Form_BanHang extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -727,7 +756,7 @@ public class Form_BanHang extends javax.swing.JPanel {
             bhs.deleteHDC(tblHDC.getValueAt(index, 0).toString());
             loadFormHDC();
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Hãy xóa hết sản phẩm đã thêm");
         }
     }//GEN-LAST:event_btnDeleteHDCActionPerformed
 
@@ -792,6 +821,14 @@ public class Form_BanHang extends javax.swing.JPanel {
     private void txtTienKhachTraFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTienKhachTraFocusGained
         // TODO add your handling code here:
         txtTienKhachTra.setText("");
+        if(!txtTienKhachTra.equals("")){
+            if (txtTienKhachTra.equals((""))) {
+            tongTien = Double.valueOf(txtTienHD.getText());
+            tienKhachTra = Double.valueOf(txtTienKhachTra.getText());
+            tienThua = tongTien - tienKhachTra;
+            txtTienThua.setText(String.valueOf(tienThua));
+        }
+        }
     }//GEN-LAST:event_txtTienKhachTraFocusGained
 
     private void txtTienThuaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTienThuaFocusGained
@@ -831,7 +868,7 @@ public class Form_BanHang extends javax.swing.JPanel {
                 for (GioHang gh : ghs.getGioHangByMaHD(maHD)) {
                     tongTien += gh.getThanhTien();
                 }
-                
+
                 LoadFormGH();
                 LoadDataGH(ghs.getGioHangByMaHD(maHD));
             }
@@ -1039,15 +1076,60 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     }//GEN-LAST:event_txtTienHDActionPerformed
 
+    private void txtTienKhachTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTienKhachTraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTienKhachTraActionPerformed
+
+    private void txtTienThuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTienThuaActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtTienThuaActionPerformed
+
+    private void txtTienKhachTraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTienKhachTraKeyPressed
+        // TODO add your handling code here
+            tongTien = Double.parseDouble(txtTienHD.getText());
+            tienKhachTra = Double.parseDouble(txtTienKhachTra.getText() + "0");
+            tienThua = tienKhachTra - tongTien;
+            txtTienThua.setText(String.valueOf(tienThua));
+        
+    }//GEN-LAST:event_txtTienKhachTraKeyPressed
+
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        // TODO add your handling code here:
+        if(Double.valueOf(txtTienThua.getText()) < 0 ){
+            JOptionPane.showMessageDialog(this, "Tiền khách đưa không được nhỏ hơn tiền thanh toán");
+            return;
+        }if(txtTienKhachTra.getText().equalsIgnoreCase("")){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập tiền khách trả");
+            return;
+        }
+        indexHDC = tblHDC.getSelectedRow();
+        String maHD = tblHDC.getValueAt(indexHDC, 0).toString();
+        int idHD = bhs.getIDHD(maHD);
+        int idHDCT = bhs.getIDHDCTByMa(maHD);
+        int idKH = bhs.getIDKHBySDT(txtNhapSDT.getText());
+        int idNV = bhs.getIDNhanVienByMa(txtNVBan.getText());
+        
+        if(txtMaVou.getText().isEmpty()){
+            bhs.thanhToan1(idHD, idKH, idNV, idHDCT);
+            loadFormHDC();
+        }else{
+            int idVoucher = bhs.getIDVoucherByMa(txtMaVou.getText());
+            bhs.thanhToan(idHD, idKH, idVoucher, idNV, idHDCT);
+            loadFormHDC();
+        }
+        
+    }//GEN-LAST:event_btnThanhToanActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddHDC;
     private javax.swing.JButton btnDeleteHDC;
     private javax.swing.JButton btnKhachHang;
     private javax.swing.JButton btnSuaSL;
+    private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton btnXoaSanPhamCT;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
