@@ -18,6 +18,7 @@ public class HoaDonChiTiet {
     private double Gia;
     private double ThanhTien;
     private String NguoiTao;
+    private String NguoiSua;
     private Date NgayTao;
     private Date NgaySua;
 
@@ -33,6 +34,14 @@ public class HoaDonChiTiet {
         this.NgaySua = NgaySua;
     }
 
+    public String getNguoiSua() {
+        return NguoiSua;
+    }
+
+    public void setNguoiSua(String NguoiSua) {
+        this.NguoiSua = NguoiSua;
+    }
+    
     public HoaDonChiTiet() {
     }
 
