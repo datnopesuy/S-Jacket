@@ -59,7 +59,7 @@ public class Mu {
 
     @Override
     public String toString() {
-        return "Mu{" + "id=" + id + ", maMu=" + maMu + ", tenMu=" + tenMu + ", trangThai=" + trangThai + '}';
+        return tenMu;
     }
     
     

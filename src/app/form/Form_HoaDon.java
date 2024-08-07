@@ -9,7 +9,10 @@ import app.model.QuanLyHoaDon;
 import app.model.SanPhamChiTiet;
 import app.service.HoaDonService;
 import app.util.GetMaSanPham;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -22,6 +25,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -90,7 +98,7 @@ public class Form_HoaDon extends javax.swing.JPanel {
         int stt = 1;
         for (SanPhamChiTiet spct : hdservice.getSPCT(maHD)) {
             Object[] row = new Object[]{
-                stt, spct.getSanPham().getTenSP(), spct.getMauSac(), spct.getChatLieu(), spct.getMu(), spct.getKieuDang(), spct.getLopLot(), spct.getSize(), spct.getSoLuong(), spct.getGia(), spct.getSoLuong() * spct.getGia()
+                stt, spct.getSanPham().getTenSP(), spct.getMauSac(), spct.getChatLieu(), spct.getMu(), spct.getKieuDang(), spct.getLopLot(), spct.getSize(), spct.getSoLuong(), spct.getGia()
             };
             stt += 1;
             model.addRow(row);
@@ -229,28 +237,28 @@ public class Form_HoaDon extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(28, 28, 28)
-                                .addComponent(cboTrangthai, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(dcNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(dcNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
-                                .addComponent(btnLoc))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(33, 33, 33)
-                                .addComponent(txt_seatch, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 108, Short.MAX_VALUE)))
+                        .addComponent(jLabel2)
+                        .addGap(28, 28, 28)
+                        .addComponent(cboTrangthai, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(dcNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(dcNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(btnLoc))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(33, 33, 33)
+                        .addComponent(txt_seatch, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(114, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -271,9 +279,9 @@ public class Form_HoaDon extends javax.swing.JPanel {
                     .addComponent(jLabel4)
                     .addComponent(dcNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLoc))
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInHoaDon)
                     .addComponent(jButton3)
@@ -285,13 +293,13 @@ public class Form_HoaDon extends javax.swing.JPanel {
 
         tblHoaDonChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Tên sản phẩm", "Màu sắc", "Chất liệu", "Mũ", "Kiểu dáng", "Lớp Lót", "Size", "Số lượng", "Giá", "Thành tiền "
+                "STT", "Tên sản phẩm", "Màu sắc", "Chất liệu", "Mũ", "Kiểu dáng", "Lớp Lót", "Size", "Số lượng", "Giá"
             }
         ));
         jScrollPane2.setViewportView(tblHoaDonChiTiet);
@@ -364,6 +372,70 @@ public class Form_HoaDon extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn xuất file không?");
+        if (result == JOptionPane.YES_OPTION) 
+        try {
+            XSSFWorkbook wordbook = new XSSFWorkbook();
+            XSSFSheet sheet = wordbook.createSheet("DanhSachSPCT");
+            XSSFRow row = null;
+            Cell cell = null;
+            row = sheet.createRow(0);
+            cell = row.createCell(0, CellType.STRING);
+            cell.setCellValue("STT");
+            cell = row.createCell(1, CellType.STRING);
+            cell.setCellValue("Mã Hóa Đơn");
+            cell = row.createCell(2, CellType.STRING);
+            cell.setCellValue("Ngày Tạo");
+            cell = row.createCell(3, CellType.STRING);
+            cell.setCellValue("Ngày Thanh Toán");
+            cell = row.createCell(4, CellType.STRING);
+            cell.setCellValue("Tổng Tiền");
+            cell = row.createCell(5, CellType.STRING);
+            cell.setCellValue("Mã Nhân Viên");
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Tên Khách Hàng");
+            cell = row.createCell(7, CellType.STRING);
+            cell.setCellValue("Trạng Thái");
+
+            for (int i = 0; i < listQLHD.size(); i++) {
+                row = sheet.createRow(i + 1);
+                cell = row.createCell(0, CellType.NUMERIC);
+                cell.setCellValue(i + 1);
+                cell = row.createCell(1, CellType.STRING);
+                cell.setCellValue(listQLHD.get(i).getMaHoaDon());
+
+                cell = row.createCell(2, CellType.STRING);
+                cell.setCellValue(listQLHD.get(i).getNgayTaoHD());
+
+                cell = row.createCell(3, CellType.STRING);
+                cell.setCellValue(listQLHD.get(i).getNgayThanhToan());
+
+                cell = row.createCell(4, CellType.STRING);
+                cell.setCellValue(listQLHD.get(i).getTongtientt());
+
+                cell = row.createCell(5, CellType.STRING);
+                cell.setCellValue(listQLHD.get(i).getMaNV());
+
+                cell = row.createCell(6, CellType.STRING);
+                cell.setCellValue(listQLHD.get(i).getTenKH());
+
+                cell = row.createCell(7, CellType.STRING);
+                cell.setCellValue(listQLHD.get(i).isTrangThai());
+            }
+            File file = new File("D://HoaDonExcel.xlsx");
+            try {
+                FileOutputStream fis = new FileOutputStream(file);
+                wordbook.write(fis);
+                fis.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } catch (Exception e) {
+        }
+        JOptionPane.showMessageDialog(this, "In thành công");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txt_seatchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_seatchKeyReleased

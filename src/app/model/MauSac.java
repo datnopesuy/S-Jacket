@@ -59,7 +59,7 @@ public class MauSac {
 
     @Override
     public String toString() {
-        return "MauSac{" + "id=" + id + ", maMauSac=" + maMauSac + ", tenMauSac=" + tenMauSac + ", trangThai=" + trangThai + '}';
+        return tenMauSac;
     }
     
     

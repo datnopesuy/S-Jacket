@@ -4,6 +4,7 @@
  */
 package app.form;
 
+import app.model.HoaDon;
 import app.model.KhachHang;
 import app.service.KhachHangService;
 import java.io.File;
@@ -727,10 +728,30 @@ public class Form_KhachHang extends javax.swing.JPanel {
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
         // TODO add your handling code here:
+    int index = tblKhachHang.getSelectedRow();
+//        fillTable(khService.getall());
+        if (i >= 0) {
+            Object value = tblKhachHang.getValueAt(index, 1);
+            String maKH = value != null ? value.toString() : "";
+            showTable(khService.getAt(index));
+            fillTableLSHD(khService.timLichSuHD(maKH));
+        }
 
-        showTable(khService.getall().get(tblKhachHang.getSelectedRow()));
     }//GEN-LAST:event_tblKhachHangMouseClicked
-
+ 
+    private void fillTableLSHD(List<HoaDon> list) {
+        tbl = (DefaultTableModel) tblLichSuMuaHang.getModel();
+        tbl.setRowCount(0);
+        int stt = 1;
+        for (HoaDon hoaDon : list) {
+            Object[] row = new Object[]{
+                stt, hoaDon.getMaHoaDon(), hoaDon.getNgayTao(), hoaDon.getTongTien(), hoaDon.isTrangThai() ? "Đã thanh toán" : "Chưa thanh toán"
+            };
+            stt += 1;
+            tbl.addRow(row);
+        }
+    }
+ 
     private void btnXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatActionPerformed
         // TODO add your handling code here:
         // TODO add your handling code here:

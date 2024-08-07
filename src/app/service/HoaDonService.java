@@ -69,24 +69,27 @@ public class HoaDonService {
     public List<SanPhamChiTiet> getSPCT(String mahoadon) {
         listSPCT = new ArrayList<>();
         try {
-            sql = "SELECT spct.IDSANPHAM, sp.MASP, sp.TENSP, spct.IDMAUSAC, ms.MAMAU, ms.TENMAU\n"
-                    + ", spct.IDCHATLIEU, cl.MACHATLIEU, cl.TENCHATLIEU\n"
-                    + ", spct.IDLOPLOT, ll.TENLOPLOT, ll.MALOPLOT\n"
-                    + ", spct.IDMU, m.MAMU, m.KIEUMU\n"
-                    + ", spct.IDSIZE, s.MASIZE, s.TENSIZE\n"
-                    + ", spct.IDKIEUDANG, kd.MAKIEUDANG, kd.TENKIEUDANG\n"
-                    + ", spct.SOLUONG, spct.MOTA, spct.GIA, spct.TRANGTHAI \n"
-                    + "FROM SANPHAMCHITIET spct \n"
-                    + "LEFT JOIN HOADONCHITIET hdct ON spct.IDSPCT = hdct.IDSPCT\n"
-                    + "LEFT JOIN SANPHAM sp ON sp.IDSANPHAM = spct.IDSANPHAM\n"
-                    + "LEFT JOIN MAUSAC ms ON spct.IDMAUSAC = ms.IDMAUSAC\n"
-                    + "LEFT JOIN CHATLIEU cl ON spct.IDCHATLIEU = cl.IDCHATLIEU\n"
-                    + "LEFT JOIN MU m ON spct.IDMU = m.IDMU\n"
-                    + "LEFT JOIN SIZE s ON spct.IDSIZE = s.IDSIZE\n"
-                    + "LEFT JOIN LOPLOT ll ON spct.IDLOPLOT = ll.IDLOPLOT\n"
-                    + "LEFT JOIN KIEUDANG kd ON spct.IDKIEUDANG = kd.IDKIEUDANG"
-                    +" JOIN HOADON hd on hd.IDHOADON =hdct.IDHOADON"
-                    + " WHERE hd.MAHOADON = ?;";
+            sql = "SELECT hdct.IDSPCT,\n"
+                    + "       hdct.IDHDCT, hd.IDHOADON, hd.MAHOADON,\n"
+                    + "       sp.TENSP, sp.IDSANPHAM,\n"
+                    + "       ms.TENMAU, ms.IDMAUSAC,\n"
+                    + "       cl.MACHATLIEU, cl.IDCHATLIEU,\n"
+                    + "       ll.TENLOPLOT, ll.IDLOPLOT,\n"
+                    + "       m.KIEUMU, m.IDMU,\n"
+                    + "       s.MASIZE, s.IDSIZE,\n"
+                    + "       kd.TENKIEUDANG, kd.IDKIEUDANG,\n"
+                    + "       hdct.SOLUONG, hdct.SOLUONG * hdct.GIA AS THANHTIEN\n"
+                    + "FROM HOADONCHITIET hdct\n"
+                    + "JOIN HOADON hd ON hd.IDHOADON = hdct.IDHOADON\n"
+                    + "JOIN SANPHAMCHITIET spct ON spct.IDSPCT = hdct.IDSPCT\n"
+                    + "JOIN SANPHAM sp ON sp.IDSANPHAM = spct.IDSANPHAM\n"
+                    + "JOIN MAUSAC ms ON ms.IDMAUSAC = spct.IDMAUSAC\n"
+                    + "JOIN CHATLIEU cl ON cl.IDCHATLIEU = spct.IDCHATLIEU\n"
+                    + "JOIN LOPLOT ll ON ll.IDLOPLOT = spct.IDLOPLOT\n"
+                    + "JOIN MU m ON m.IDMU = spct.IDMU\n"
+                    + "JOIN SIZE s ON s.IDSIZE = spct.IDSIZE\n"
+                    + "JOIN KIEUDANG kd ON kd.IDKIEUDANG = spct.IDKIEUDANG\n"
+                    + "where hd.MAHOADON = ?;";
             con = DBConnect.getConnection();
             ps = con.prepareCall(sql);
             ps.setObject(1, mahoadon);
@@ -101,11 +104,11 @@ public class HoaDonService {
                 spct.setSanPham(sanPham);
 
                 ChatLieu chatLieu = new ChatLieu();
-                chatLieu.setTenChatLieu(rs.getString("TenChatLieu"));
+                chatLieu.setTenChatLieu(rs.getString("MaChatLieu"));
                 spct.setChatLieu(chatLieu);
 
                 Size size = new Size();
-                size.setTenSize(rs.getString("TenSize"));
+                size.setTenSize(rs.getString("MaSize"));
                 spct.setSize(size);
 
                 LopLot lopLot = new LopLot();
@@ -126,7 +129,7 @@ public class HoaDonService {
 
                 // Thiết lập các thuộc tính còn lại
                 spct.setSoLuong(rs.getInt("SoLuong"));
-                spct.setGia(rs.getDouble("Gia"));
+                spct.setGia(rs.getDouble("THANHTIEN"));
 
                 // Thêm đối tượng vào danh sách
                 listSPCT.add(spct);

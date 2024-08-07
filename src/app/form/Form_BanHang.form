@@ -461,7 +461,7 @@
                                   <Component id="jSeparator11" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton10" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnVoucher" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
@@ -489,7 +489,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="txtMaVou" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton10" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnVoucher" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparator4" min="-2" pref="3" max="-2" attributes="0"/>
@@ -535,12 +535,15 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKhachHangActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton10">
+            <Component class="javax.swing.JButton" name="btnVoucher">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/app/icon/icon/sale.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVoucherActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnThanhToan">
               <Properties>

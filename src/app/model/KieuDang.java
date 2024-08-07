@@ -59,7 +59,7 @@ public class KieuDang {
 
     @Override
     public String toString() {
-        return "KieuDang{" + "id=" + id + ", maKieuDang=" + maKieuDang + ", tenKieuDang=" + tenKieuDang + ", trangThai=" + trangThai + '}';
+        return tenKieuDang;
     }
     
     

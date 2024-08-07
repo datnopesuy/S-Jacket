@@ -7,20 +7,21 @@ import app.form.Form_Dashboard;
 import app.form.Form_Empty;
 import app.form.Form_HoaDon;
 import app.form.Form_KhachHang;
+import app.form.Form_PhieuGiamGia;
 import app.form.Form_NhanVien;
 import app.form.Form_SanPham;
 import app.form.Form_ThongKe;
 import app.menu.EventMenuSelected;
 
 public class Main extends javax.swing.JFrame {
-    
+
     private static Main main;
-    
+
     public Main() {
         initComponents();
         init();
     }
-    
+
     private void init() {
         main = this;
         titleBar.initJFram(this);
@@ -41,16 +42,18 @@ public class Main extends javax.swing.JFrame {
                         showForm(new Form_HoaDon());
                         break;
                     case 4:
-                        showForm(new Form_NhanVien());
+                        showForm(new Form_PhieuGiamGia());
                         break;
                     case 5:
-                        showForm(new Form_KhachHang());
+                        showForm(new Form_NhanVien());
                         break;
                     case 6:
-                        showForm(new Form_ThongKe());
+                        showForm(new Form_KhachHang());
                         break;
                     case 7:
-                        
+                        showForm(new Form_ThongKe());
+                        break;
+                    case 8:
                         showForm(new Form_DangXuat());
                         break;
                     default:
@@ -60,18 +63,18 @@ public class Main extends javax.swing.JFrame {
         });
         menu.setSelectedIndex(0, 0);
     }
-    
+
     public void showForm(Component com) {
         body.removeAll();
         body.add(com);
         body.repaint();
         body.revalidate();
     }
-    
+
     public static Main getMain() {
         return main;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -153,7 +156,7 @@ public class Main extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

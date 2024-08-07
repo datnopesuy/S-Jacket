@@ -59,7 +59,7 @@ public class LopLot {
 
     @Override
     public String toString() {
-        return "LopLot{" + "id=" + id + ", maLopLot=" + maLopLot + ", tenLopLot=" + tenLopLot + ", trangThai=" + trangThai + '}';
+        return tenLopLot;
     }
     
     

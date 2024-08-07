@@ -58,7 +58,7 @@ public class Size {
 
     @Override
     public String toString() {
-        return "Size{" + "id=" + id + ", maSize=" + maSize + ", tenSize=" + tenSize + ", trangThai=" + trangThai + '}';
+        return tenSize;
     }
     
 }

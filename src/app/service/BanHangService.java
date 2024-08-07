@@ -254,14 +254,14 @@ public class BanHangService {
         return null;
     }
 
-    public Integer getIDHDCTByMa(String maHD) {
+    public Integer getIDHDCTByIDHD(int idHD) {
         String sql = "select IDHDCT\n"
-                + "from HOADON\n"
-                + "where MAHOADON = ?";
+                + "from HOADONCHITIET\n"
+                + "where IDHOADON = ?";
         Connection con = DBConnect.getConnection();
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
-            pstm.setString(1, maHD);
+            pstm.setInt(1, idHD);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 return rs.getInt("IDHDCT");
