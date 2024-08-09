@@ -253,10 +253,8 @@ public class Form_BanHang extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHDC = new javax.swing.JTable();
         btnAddHDC = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         btnDeleteHDC = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblGH = new javax.swing.JTable();
@@ -325,13 +323,6 @@ public class Form_BanHang extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("Làm mới");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         btnDeleteHDC.setText("Hủy hóa đơn");
         btnDeleteHDC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -348,43 +339,29 @@ public class Form_BanHang extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(btnAddHDC)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnDeleteHDC)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
                 .addGap(14, 14, 14))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(btnDeleteHDC)
-                    .addComponent(jButton4)
-                    .addComponent(btnAddHDC))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnDeleteHDC)
+                        .addComponent(jButton4))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnAddHDC)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                 .addContainerGap())
-        );
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Barcode"));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 221, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -532,10 +509,14 @@ public class Form_BanHang extends javax.swing.JPanel {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtNhapSDTFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNhapSDTFocusLost(evt);
+            }
         });
 
         txtTenKH.setText("Tên khách hàng");
         txtTenKH.setBorder(null);
+        txtTenKH.setEnabled(false);
         txtTenKH.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtTenKHFocusGained(evt);
@@ -544,6 +525,7 @@ public class Form_BanHang extends javax.swing.JPanel {
 
         txtNVBan.setText("Nhân viên bán hàng");
         txtNVBan.setBorder(null);
+        txtNVBan.setEnabled(false);
         txtNVBan.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtNVBanFocusGained(evt);
@@ -560,6 +542,7 @@ public class Form_BanHang extends javax.swing.JPanel {
 
         txtMaAP.setText("Mã Voucher áp dụng");
         txtMaAP.setBorder(null);
+        txtMaAP.setEnabled(false);
         txtMaAP.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtMaAPFocusGained(evt);
@@ -568,6 +551,7 @@ public class Form_BanHang extends javax.swing.JPanel {
 
         txtLoai.setText("Loại giảm giá");
         txtLoai.setBorder(null);
+        txtLoai.setEnabled(false);
         txtLoai.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtLoaiFocusGained(evt);
@@ -576,6 +560,7 @@ public class Form_BanHang extends javax.swing.JPanel {
 
         txtTienGiam.setText("Số tiền được giảm");
         txtTienGiam.setBorder(null);
+        txtTienGiam.setEnabled(false);
         txtTienGiam.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtTienGiamFocusGained(evt);
@@ -584,6 +569,7 @@ public class Form_BanHang extends javax.swing.JPanel {
 
         txtTienHD.setText("Tổng tiền hóa đơn");
         txtTienHD.setBorder(null);
+        txtTienHD.setEnabled(false);
         txtTienHD.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtTienHDFocusGained(evt);
@@ -615,6 +601,7 @@ public class Form_BanHang extends javax.swing.JPanel {
 
         txtTienThua.setText("Tiền thừa");
         txtTienThua.setBorder(null);
+        txtTienThua.setEnabled(false);
         txtTienThua.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtTienThuaFocusGained(evt);
@@ -724,14 +711,15 @@ public class Form_BanHang extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(10, 10, 10))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(10, 10, 10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -742,9 +730,7 @@ public class Form_BanHang extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -871,10 +857,6 @@ public class Form_BanHang extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnAddHDCActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void tblHDCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHDCMouseClicked
         // TODO add your handling code here:
@@ -1121,16 +1103,16 @@ public class Form_BanHang extends javax.swing.JPanel {
         frame.setSize(500, 500); // Kích thước của JFrame
         JPanel panel = new JPanel(new GridLayout(voucherService.getAll().size(), 3));
         for (Voucher voucher : voucherService.getAll()) {
-            JTextField mavoucher = new JTextField(voucher.getMaVoucher());
-            JTextField tenvoucher = new JTextField(voucher.getTenvoucher());
+            JTextField mavoucher = new JTextField(voucher.getMaVocher());
+            JTextField tenvoucher = new JTextField(voucher.getTenVoucher());
             tenvoucher.setSize(50, 20);
             JButton apdung = new JButton("Áp dụng");
             apdung.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Voucher voucher = voucherService.getDetail(mavoucher.getText());
-                    if (Double.parseDouble(txtTienHD.getText()) >= voucher.getDontToithieu()) {
-                        txtMaAP.setText(voucher.getMaVoucher());
+                    if (Double.parseDouble(txtTienHD.getText()) >= voucher.getDonToithieu()) {
+                        txtMaAP.setText(voucher.getMaVocher());
                         txtTienGiam.setText(String.valueOf(voucher.getMucGiamgia()));
                         frame.setVisible(false);
 
@@ -1152,6 +1134,10 @@ public class Form_BanHang extends javax.swing.JPanel {
         frame.setVisible(true);
     }//GEN-LAST:event_btnVoucherActionPerformed
 
+    private void txtNhapSDTFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNhapSDTFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNhapSDTFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddHDC;
@@ -1161,13 +1147,11 @@ public class Form_BanHang extends javax.swing.JPanel {
     private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton btnVoucher;
     private javax.swing.JButton btnXoaSanPhamCT;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;

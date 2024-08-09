@@ -4,12 +4,12 @@
  */
 package app.form;
 
-import app.form.FormTT.ClForm;
-import app.form.FormTT.KieuDangForm;
-import app.form.FormTT.LopLotForm;
-import app.form.FormTT.MsForm;
-import app.form.FormTT.MuForm;
-import app.form.FormTT.SizeForm;
+import app.FormTT.ClForm;
+import app.FormTT.KieuDangForm;
+import app.FormTT.LopLotForm;
+import app.FormTT.MsForm;
+import app.FormTT.MuForm;
+import app.FormTT.SizeForm;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;

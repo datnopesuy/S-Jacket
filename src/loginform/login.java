@@ -240,7 +240,7 @@ public class login extends javax.swing.JFrame {
         String username = txtusername.getText();
         String password = new String(txtpassword.getPassword());
         for (NhanVien nhanVien : nhanVienservice.getAll()) {
-            if (username.equalsIgnoreCase(nhanVien.getMaNV())&&password.equals(nhanVien.getMatkhau())) {
+            if (username.equalsIgnoreCase(nhanVien.getMaNV())&&password.equals(nhanVien.getMatKhau())) {
                 System.out.println("loginform.login.jButton1ActionPerformed()");
                 Main main = new Main();
                 main.setVisible(true);

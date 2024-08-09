@@ -8,10 +8,9 @@ import java.util.Date;
 
 /**
  *
- * @author Dat
+ * @author ADMIN
  */
 public class NhanVien {
-    
     private int id;
     private String maNV;
     private String tenNV;
@@ -20,27 +19,24 @@ public class NhanVien {
     private String diaChi;
     private String sdt;
     private String email;
-    private String matkhau;
+    private String matKhau;
 
     public NhanVien() {
     }
 
-    public String getMatkhau() {
-        return matkhau;
-    }
+//    public NhanVien(int id, String maNV, String tenNV, Date ngSinh, boolean gioiTinh, String diaChi, String sdt, String email) {
+//        this.id = id;
+//        this.maNV = maNV;
+//        this.tenNV = tenNV;
+//        this.ngSinh = ngSinh;
+//        this.gioiTinh = gioiTinh;
+//        this.diaChi = diaChi;
+//        this.sdt = sdt;
+//        this.email = email;
+//    }
+    
 
-    public void setMatkhau(String matkhau) {
-        this.matkhau = matkhau;
-    }
-
-    @Override
-    public String toString() {
-        return "NhanVien{" + "id=" + id + ", maNV=" + maNV + ", tenNV=" + tenNV + ", ngSinh=" + ngSinh + ", gioiTinh=" + gioiTinh + ", diaChi=" + diaChi + ", sdt=" + sdt + ", email=" + email + ", matkhau=" + matkhau + '}';
-    }
-
-   
-
-    public NhanVien(int id, String maNV, String tenNV, Date ngSinh, boolean gioiTinh, String diaChi, String sdt, String email, String matkhau) {
+    public NhanVien(int id, String maNV, String tenNV, Date ngSinh, boolean gioiTinh, String diaChi, String sdt, String email, String matKhau) {
         this.id = id;
         this.maNV = maNV;
         this.tenNV = tenNV;
@@ -49,8 +45,22 @@ public class NhanVien {
         this.diaChi = diaChi;
         this.sdt = sdt;
         this.email = email;
-        this.matkhau = matkhau;
+        this.matKhau = matKhau;
     }
+
+    public NhanVien(String maNV, String tenNV, Date ngSinh, boolean gioiTinh, String diaChi, String sdt, String email, String matKhau) {
+        this.maNV = maNV;
+        this.tenNV = tenNV;
+        this.ngSinh = ngSinh;
+        this.gioiTinh = gioiTinh;
+        this.diaChi = diaChi;
+        this.sdt = sdt;
+        this.email = email;
+        this.matKhau = matKhau;
+    }
+
+    
+    
     
 
     public int getId() {
@@ -116,6 +126,19 @@ public class NhanVien {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getMatKhau() {
+        return matKhau;
+    }
+
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
+    }
+
+    @Override
+    public String toString() {
+        return "NhanVien{" + "id=" + id + ", maNV=" + maNV + ", tenNV=" + tenNV + ", ngSinh=" + ngSinh + ", gioiTinh=" + gioiTinh + ", diaChi=" + diaChi + ", sdt=" + sdt + ", email=" + email + ", matKhau=" + matKhau + '}';
     }
     
 }

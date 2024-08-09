@@ -3,9 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Dat/Desktop/s-jacket/src/app/main/Main.java</file>
-            <file>file:/C:/Users/Dat/Desktop/s-jacket/src/app/service/KhachHangService.java</file>
-            <file>file:/C:/Users/Dat/Desktop/s-jacket/src/app/form/Form_KhachHang.java</file>
+            <file>file:/E:/java/S-Jacket-main%20(8)/S-Jacket-main/src/app/form/Form_NhanVien.java</file>
+            <file>file:/E:/java/S-Jacket-main%20(8)/S-Jacket-main/src/app/service/DBConnect.java</file>
+            <file>file:/E:/java/S-Jacket-main%20(8)/S-Jacket-main/src/app/main/Main.java</file>
+            <file>file:/E:/java/S-Jacket-main%20(8)/S-Jacket-main/src/loginform/login.java</file>
+            <file>file:/E:/java/S-Jacket-main%20(8)/S-Jacket-main/src/app/model/NhanVien.java</file>
+            <file>file:/E:/java/S-Jacket-main%20(8)/S-Jacket-main/src/app/service/SQLServerConnection.java</file>
+            <file>file:/E:/java/S-Jacket-main%20(8)/S-Jacket-main/src/app/service/NhanVienService.java</file>
         </group>
     </open-files>
 </project-private>
