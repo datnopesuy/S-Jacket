@@ -239,19 +239,31 @@ public class login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String username = txtusername.getText();
         String password = new String(txtpassword.getPassword());
-        for (NhanVien nhanVien : nhanVienservice.getAll()) {
-            System.out.println(nhanVien);
-            if (username.equalsIgnoreCase(nhanVien.getMaNV())&&password.equals(nhanVien.getMatKhau())) {
-                Main main = new Main();
-                main.setVisible(true);
-                Stringname name = new Stringname();
-                name.setName(txtusername.getText());
-                this.setVisible(false);
+//        for (NhanVien nhanVien : nhanVienservice.getAll()) {
+//            System.out.println(nhanVien);
+//            if (username.equalsIgnoreCase(nhanVien.getMaNV())&&password.equals(nhanVien.getMatKhau())) {
+//                Main main = new Main();
+//                main.setVisible(true);
+//                Stringname name = new Stringname();
+//                name.setName(txtusername.getText());
+//                this.setVisible(false);
+//            return;
+//            } else {
+//                JOptionPane.showMessageDialog(this, "tài khoản hoặc mật khẩu không chính xác");
+//               return;
+//            }
+//        }
+        NhanVien nhanVien = nhanVienservice.searchByma(txtusername.getText());
+        if (username.equalsIgnoreCase(nhanVien.getMaNV()) && password.equals(nhanVien.getMatKhau())) {
+            Main main = new Main();
+            main.setVisible(true);
+            Stringname name = new Stringname();
+            name.setName(txtusername.getText());
+            this.setVisible(false);
             return;
-            } else {
-                JOptionPane.showMessageDialog(this, "tài khoản hoặc mật khẩu không chính xác");
-               return;
-            }
+        } else {
+            JOptionPane.showMessageDialog(this, "tài khoản hoặc mật khẩu không chính xác");
+            return;
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed

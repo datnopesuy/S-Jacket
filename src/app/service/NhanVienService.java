@@ -175,10 +175,28 @@ public class NhanVienService {
         return list;
     }
 
+   
+   public NhanVien searchByma(String maNhanvien){
+   NhanVien nv = new NhanVien();
+    String sql = " select * from NhanVien where MANHANVIEN LIKE ? ";
+        try(Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setString(1, maNhanvien);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {                
+                nv.setMaNV(rs.getString(2));
+                nv.setMatKhau(rs.getString(10));
+                return nv;
+            }
+            return nv;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+   return null;
+   }
 
     
     public static void main(String[] args) {
-        List<NhanVien> list = new NhanVienService().getAll();
-        System.out.println(list);
+        NhanVien nv = new NhanVienService().searchByma("NV001");
+        System.out.println(nv);
     }
 }
