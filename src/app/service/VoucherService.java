@@ -121,7 +121,7 @@ public List<Voucher> searchBymaVoucher(String maVoucher) {
         List<Voucher> listVoucher = new ArrayList<>();
         try {
             con = SQLServerConnection.getConnection("DUAN1");
-            sql = "select * from VOUCHER where mavoucher like %?%";
+            sql = "select * from VOUCHER where mavoucher like ?";
             ps = con.prepareStatement(sql);
             ps.setString(1, maVoucher);
             rs = ps.executeQuery();
@@ -165,10 +165,10 @@ public List<Voucher> searchBymaVoucher(String maVoucher) {
 
     }
      public static void main(String[] args) {
-
+          
         VoucherService vs = new VoucherService();
         for (Voucher voucher : vs.searchBymaVoucher("vou001")) {
-            System.err.println(voucher);
+            System.out.println(voucher);
 
         }
 

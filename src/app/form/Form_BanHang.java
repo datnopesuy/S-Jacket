@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import javax.swing.JButton;
@@ -74,8 +75,6 @@ public class Form_BanHang extends javax.swing.JPanel {
         txtTienHD.setText("0");
 
     }
-
-
 
     private void tinhTien() {
         tongTien = Double.valueOf(txtTienHD.getText());
@@ -867,8 +866,8 @@ public class Form_BanHang extends javax.swing.JPanel {
                 double tongTien = bhs.getTongTienHD(maHD); // Lấy tổng tiền ban đầu cho hóa đơn hiện tại
 
                 // Hiển thị tổng tiền hóa đơn trong txtTienHD trước khi cộng thêm thành tiền của giỏ hàng
-               //displayFormattedMoney(tongTien, txtTienHD);
-               txtTienHD.setText(String.valueOf(tongTien));
+                //displayFormattedMoney(tongTien, txtTienHD);
+                txtTienHD.setText(String.valueOf(tongTien));
                 // Cộng thêm thành tiền của giỏ hàng
                 tongTien = 0; // Đặt lại tongTien về 0 trước khi tính lại
                 for (GioHang gh : ghs.getGioHangByMaHD(maHD)) {
@@ -1054,10 +1053,10 @@ public class Form_BanHang extends javax.swing.JPanel {
         double tienKhuyenMai = Double.valueOf(txtTienGiam.getText());
         //displayFormattedMoney(tienKhachTra, txtTienKhachTra);
         txtTienHD.setText(String.valueOf(tongTien));
-        if(txtTienGiam.getText().isEmpty()){
+        if (txtTienGiam.getText().isEmpty()) {
             tienThua = tienKhachTra - tongTien;
-        txtTienThua.setText(String.valueOf(tienThua));
-        txtTienHD.setText(String.valueOf(tongTien));
+            txtTienThua.setText(String.valueOf(tienThua));
+            txtTienHD.setText(String.valueOf(tongTien));
         }
         tienThua = tienKhachTra - (tongTien - tienKhuyenMai);
         txtTienThua.setText(String.valueOf(tienThua));
@@ -1097,20 +1096,27 @@ public class Form_BanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void btnVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoucherActionPerformed
-        // TODO add your handling code here:
-        JFrame frame = new JFrame("Single Row Panel");
+        List<Voucher> list = new ArrayList<>();
+        for (Voucher voucher : voucherService.getAll()) {
+            if (voucher.getTrangthai() == true) {
+                list.add(voucher);
+            }
+        }
+        JFrame frame = new JFrame("Voucher");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500); // Kích thước của JFrame
-        JPanel panel = new JPanel(new GridLayout(voucherService.getAll().size(), 3));
-        for (Voucher voucher : voucherService.getAll()) {
-            JTextField mavoucher = new JTextField(voucher.getMaVocher());
-            JTextField tenvoucher = new JTextField(voucher.getTenVoucher());
-            tenvoucher.setSize(50, 20);
-            JButton apdung = new JButton("Áp dụng");
+        JPanel panel = new JPanel(new GridLayout(list.size(), 3));
+        
+       
+        for (Voucher voucher : list) {
+            JTextField text1 = new JTextField(voucher.getMaVocher());
+            JTextField text2 = new JTextField(voucher.getTenVoucher());
+            text2.setSize(50, 20);
+            JButton  apdung = new  JButton("Ap dung");
             apdung.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Voucher voucher = voucherService.getDetail(mavoucher.getText());
+                    Voucher voucher = voucherService.getDetail(text1.getText());
                     if (Double.parseDouble(txtTienHD.getText()) >= voucher.getDonToithieu()) {
                         txtMaAP.setText(voucher.getMaVocher());
                         txtTienGiam.setText(String.valueOf(voucher.getMucGiamgia()));
@@ -1122,8 +1128,8 @@ public class Form_BanHang extends javax.swing.JPanel {
 
                 }
             });
-            panel.add(mavoucher);
-            panel.add(tenvoucher);
+            panel.add(text1);
+            panel.add(text2);
             panel.add(apdung);
 
         }

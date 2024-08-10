@@ -240,17 +240,17 @@ public class login extends javax.swing.JFrame {
         String username = txtusername.getText();
         String password = new String(txtpassword.getPassword());
         for (NhanVien nhanVien : nhanVienservice.getAll()) {
+            System.out.println(nhanVien);
             if (username.equalsIgnoreCase(nhanVien.getMaNV())&&password.equals(nhanVien.getMatKhau())) {
-                System.out.println("loginform.login.jButton1ActionPerformed()");
                 Main main = new Main();
                 main.setVisible(true);
                 Stringname name = new Stringname();
                 name.setName(txtusername.getText());
                 this.setVisible(false);
-                return;
+            return;
             } else {
                 JOptionPane.showMessageDialog(this, "tài khoản hoặc mật khẩu không chính xác");
-                return;
+               return;
             }
         }
 
