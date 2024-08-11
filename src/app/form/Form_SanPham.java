@@ -511,10 +511,6 @@ public class Form_SanPham extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
-        btnLast = new javax.swing.JButton();
-        btnPrev = new javax.swing.JButton();
-        btnNext = new javax.swing.JButton();
-        btnFert = new javax.swing.JButton();
         rdoSearchHD = new javax.swing.JRadioButton();
         rdoSearchNHD = new javax.swing.JRadioButton();
         jPanel7 = new javax.swing.JPanel();
@@ -798,34 +794,6 @@ public class Form_SanPham extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblSanPham);
 
-        btnLast.setText("<<");
-        btnLast.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLastActionPerformed(evt);
-            }
-        });
-
-        btnPrev.setText("<");
-        btnPrev.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrevActionPerformed(evt);
-            }
-        });
-
-        btnNext.setText(">");
-        btnNext.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextActionPerformed(evt);
-            }
-        });
-
-        btnFert.setText(">>");
-        btnFert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFertActionPerformed(evt);
-            }
-        });
-
         buttonGroup2.add(rdoSearchHD);
         rdoSearchHD.setText("Hoạt động");
         rdoSearchHD.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -852,28 +820,17 @@ public class Form_SanPham extends javax.swing.JPanel {
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(155, 155, 155)
-                                .addComponent(rdoSearchHD)
-                                .addGap(65, 65, 65)
-                                .addComponent(rdoSearchNHD))))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(237, 237, 237)
-                        .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)
-                        .addComponent(btnPrev, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(74, 74, 74)
-                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel13)
                         .addGap(18, 18, 18)
-                        .addComponent(btnFert, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(155, 155, 155)
+                        .addComponent(rdoSearchHD)
+                        .addGap(65, 65, 65)
+                        .addComponent(rdoSearchNHD)))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
@@ -886,14 +843,8 @@ public class Form_SanPham extends javax.swing.JPanel {
                     .addComponent(rdoSearchHD)
                     .addComponent(rdoSearchNHD))
                 .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLast)
-                    .addComponent(btnPrev)
-                    .addComponent(btnNext)
-                    .addComponent(btnFert))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -1914,22 +1865,6 @@ public class Form_SanPham extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
-    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-
-    }//GEN-LAST:event_btnLastActionPerformed
-
-    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-
-    }//GEN-LAST:event_btnPrevActionPerformed
-
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-
-    }//GEN-LAST:event_btnNextActionPerformed
-
-    private void btnFertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFertActionPerformed
-
-    }//GEN-LAST:event_btnFertActionPerformed
-
     private void btnAddSPCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSPCTActionPerformed
         //BTN Thêm
         try {
@@ -2633,12 +2568,8 @@ public class Form_SanPham extends javax.swing.JPanel {
     private javax.swing.JButton btnAddSPCT;
     private javax.swing.JButton btnAddTT;
     private javax.swing.JButton btnCTSP;
-    private javax.swing.JButton btnFert;
-    private javax.swing.JButton btnLast;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnNewTT;
-    private javax.swing.JButton btnNext;
-    private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnUpdate;

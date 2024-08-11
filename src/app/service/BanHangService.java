@@ -180,8 +180,8 @@ public class BanHangService {
         }
         return row;
     }
-    
-        public Integer thanhToan1(int idHD, int idKH, int idNV, int idHDCT) {
+
+    public Integer thanhToan1(int idHD, int idKH, int idNV, int idHDCT) {
         Integer row = null;
         String sql = "update HOADON \n"
                 + "set TRANGTHAI = 1, IDKHACHHANG = ?, IDNHANVIEN = ?, NGAYTHANHTOAN = GETDATE(), IDHDCT = ?\n"
@@ -193,6 +193,24 @@ public class BanHangService {
             pstm.setInt(2, idNV);
             pstm.setInt(3, idHDCT);
             pstm.setInt(4, idHD);
+            row = pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    public Integer thanhToan2(int idHD, int idNV, int idHDCT) {
+        Integer row = null;
+        String sql = "update HOADON \n"
+                + "set TRANGTHAI = 1,IDKHACHHANG = 20, IDNHANVIEN = ?, NGAYTHANHTOAN = GETDATE(), IDHDCT = ?\n"
+                + "where IDHOADON = ?";
+        Connection con = DBConnect.getConnection();
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setInt(1, idNV);
+            pstm.setInt(2, idHDCT);
+            pstm.setInt(3, idHD);
             row = pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
