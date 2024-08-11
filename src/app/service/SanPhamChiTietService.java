@@ -373,7 +373,7 @@ public class SanPhamChiTietService {
 //Copy phần này nha. Phần này để lọc bên SPCT
     public ArrayList<SanPhamChiTiet> filterSPCT1(String maSanPham, String maMauSac, String maChatLieu, String maSize, String maKieuDang, String maMu, String maLopLot) {
         ArrayList<SanPhamChiTiet> list = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT spct.IDSANPHAM, sp.MASP, sp.TENSP, spct.IDMAUSAC, ms.MAMAU, ms.TENMAU, "
+        StringBuilder sql = new StringBuilder("SELECT spct.idSPCT, spct.IDSANPHAM, sp.MASP, sp.TENSP, spct.IDMAUSAC, ms.MAMAU, ms.TENMAU, "
                 + "spct.IDCHATLIEU, cl.MACHATLIEU, cl.TENCHATLIEU, spct.IDLOPLOT, ll.TENLOPLOT, ll.MALOPLOT, "
                 + "spct.IDMU, m.MAMU, m.KIEUMU, spct.IDSIZE, s.MASIZE, s.TENSIZE, "
                 + "spct.IDKIEUDANG, kd.MAKIEUDANG, kd.TENKIEUDANG, spct.SOLUONG, spct.MOTA, spct.GIA, spct.TRANGTHAI "
@@ -444,7 +444,7 @@ public class SanPhamChiTietService {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 SanPham sp = new SanPham();
-                sp.setId(rs.getInt("IDSANPHAM"));
+                sp.setId(rs.getInt("IDSPCT"));
                 sp.setMaSP(rs.getString("MASP"));
                 sp.setTenSP(rs.getString("TENSP"));
 
@@ -730,7 +730,7 @@ public class SanPhamChiTietService {
     public Integer addSPCT(SanPhamChiTiet spct) {
         Integer row = null;
         String sql = "insert into SANPHAMCHITIET(IDSANPHAM, IDMAUSAC, IDCHATLIEU, IDMU, IDSIZE, IDLOPLOT, IDKIEUDANG, SOLUONG, GIA, MOTA, TRANGTHAI)\n"
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
         
         Connection con = DBConnect.getConnection();
         try {
@@ -745,7 +745,7 @@ public class SanPhamChiTietService {
             pstm.setInt(8, spct.getSoLuong());
             pstm.setDouble(9, spct.getGia());
             pstm.setString(10, spct.getMoTa());
-            pstm.setBoolean(11, spct.isTrangThai());
+//            pstm.setBoolean(11, spct.isTrangThai());
             row = pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -801,7 +801,7 @@ public class SanPhamChiTietService {
     //Lọc sản phẩm bên bảng bán hàng
     public ArrayList<SanPhamChiTiet> filterSPCT(String maMauSac, String maChatLieu, String maSize, String maLopLot, String maKieuDang, String maMu) {
         ArrayList<SanPhamChiTiet> list = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT spct.IDSANPHAM, sp.MASP, sp.TENSP, spct.IDMAUSAC, ms.MAMAU, ms.TENMAU, "
+        StringBuilder sql = new StringBuilder("SELECT spct.IDSPCT, spct.IDSANPHAM, sp.MASP, sp.TENSP, spct.IDMAUSAC, ms.MAMAU, ms.TENMAU, "
                 + "spct.IDCHATLIEU, cl.MACHATLIEU, cl.TENCHATLIEU, spct.IDLOPLOT, ll.TENLOPLOT, ll.MALOPLOT, "
                 + "spct.IDMU, m.MAMU, m.KIEUMU, spct.IDSIZE, s.MASIZE, s.TENSIZE, "
                 + "spct.IDKIEUDANG, kd.MAKIEUDANG, kd.TENKIEUDANG, spct.SOLUONG, spct.MOTA, spct.GIA, spct.TRANGTHAI "
@@ -896,7 +896,7 @@ public class SanPhamChiTietService {
                 kd.setTenKieuDang(rs.getString("TENKIEUDANG"));
 
                 SanPhamChiTiet spct = new SanPhamChiTiet();
-                spct.setIdSPCT(rs.getInt("IDSANPHAM"));
+                spct.setIdSPCT(rs.getInt("IDSPCT"));
                 spct.setSanPham(sp);
                 spct.setMauSac(ms);
                 spct.setChatLieu(cl);
